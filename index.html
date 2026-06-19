@@ -685,8 +685,19 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
 
       <!-- ACCOUNTS -->
       <div class="admin-panel" id="apanel-accounts">
-        <h2 class="admin-panel-title">👥 Admin Accounts</h2>
-        <div class="accounts-grid" id="admin-accounts-grid"></div>
+        <h2 class="admin-panel-title">👥 Accounts &amp; Staff Management</h2>
+
+        <h3 style="font-family:var(--font-display);font-size:18px;color:var(--gold);margin-bottom:16px">Fixed Accounts</h3>
+        <div class="accounts-grid" id="admin-accounts-grid" style="margin-bottom:32px"></div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px">
+          <h3 style="font-family:var(--font-display);font-size:18px;color:var(--gold);margin:0">Staff Accounts</h3>
+          <button class="btn-gold btn-sm" id="btn-add-staff" onclick="openStaffModal()" style="display:none">+ Add Staff</button>
+        </div>
+        <p style="color:var(--text-muted);font-family:var(--font-ui);font-size:12px;margin-bottom:20px">
+          Owner creates staff logins here and decides exactly what each staff member can access — Live Orders, Revenue, Item Report, Menu, or Audit Log.
+        </p>
+        <div class="accounts-grid" id="staff-accounts-grid"></div>
       </div>
 
       <!-- SETTINGS -->
@@ -852,6 +863,53 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
   </div>
 </div>
 
+<!-- STAFF CREATE/EDIT MODAL -->
+<div class="modal-overlay" id="staff-modal">
+  <div class="modal-box" style="max-width:480px">
+    <h2 class="modal-title" id="staff-modal-title">👤 Add Staff Account</h2>
+    <p class="modal-subtitle">Choose exactly what this staff member can access</p>
+    <input type="hidden" id="staff-edit-id">
+    <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" id="staff-name" placeholder="e.g. Raees Ahmed"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" id="staff-username" placeholder="e.g. raees"></div>
+      <div class="form-group"><label class="form-label">Password</label><input type="text" class="form-input" id="staff-password" placeholder="Set a password"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Role / Title (display only)</label>
+      <input type="text" class="form-input" id="staff-role" placeholder="e.g. Manager, Waiter, Cashier">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Emoji / Icon</label>
+      <input type="text" class="form-input" id="staff-emoji" placeholder="🧑‍🍳" style="max-width:100px">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Access Permissions</label>
+      <div id="staff-perms-checkboxes" style="display:flex;flex-direction:column;gap:10px;background:var(--dark3);border:var(--border-gold);border-radius:var(--radius-sm);padding:14px;margin-top:8px"></div>
+    </div>
+    <div class="form-group" id="staff-active-row" style="display:flex;align-items:center;gap:10px">
+      <div class="toggle-switch on" id="staff-active-toggle" onclick="this.classList.toggle('on')"></div>
+      <span style="font-family:var(--font-ui);font-size:12px;color:var(--cream)">Account Active (uncheck to disable login)</span>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:18px">
+      <button class="btn-gold" style="flex:1" onclick="saveStaffAccount()">💾 Save Staff</button>
+      <button class="btn-outline" onclick="closeModal('staff-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE STAFF CONFIRM MODAL -->
+<div class="modal-overlay" id="del-staff-modal">
+  <div class="modal-box" style="max-width:400px">
+    <h2 class="modal-title">⚠️ Remove Staff Account</h2>
+    <p class="modal-subtitle">This will permanently delete this login. Cannot be undone.</p>
+    <p style="color:var(--cream);margin-bottom:24px;font-family:var(--font-ui);font-size:13px">Staff: <strong id="del-staff-name-lbl" style="color:var(--gold)"></strong></p>
+    <div style="display:flex;gap:12px">
+      <button class="btn-danger" style="flex:1;padding:12px!important;font-size:12px!important" onclick="confirmDeleteStaff()">🗑 Delete Staff</button>
+      <button class="btn-outline" onclick="closeModal('del-staff-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- FORGOT PASSWORD MODAL -->
 <div class="modal-overlay" id="forgot-password-modal">
   <div class="modal-box" style="max-width:440px">
@@ -897,13 +955,16 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
 /* ══════════════════════════════════════════════
    STATIC DATA
 ══════════════════════════════════════════════ */
+// Fixed accounts — SuperAdmin (developer) + Owner (restaurant owner)
 const ADMINS=[
-  {name:'Aditya',       username:'darkaditya09',password:'Ad82710333#',role:'SuperAdmin',emoji:'🔑',perms:['ads','settings','accounts','audit','menu','orders','revenue','report']},
-  {name:'Mohammad Nawab',username:'nawab',     password:'royal2024',   role:'Owner',     emoji:'👑',perms:['orders','revenue','report','menu','accounts','settings','audit']},
-  {name:'Raees Ahmed',  username:'raees',      password:'manager123',  role:'Manager',   emoji:'🎩',perms:['orders','revenue','report','menu','audit']},
-  {name:'Zainab Fatima',username:'zainab',     password:'staff456',    role:'Staff',     emoji:'👩‍🍳',perms:['orders','menu']},
-  {name:'Arif Khan',    username:'arif',       password:'arif789',     role:'Staff',     emoji:'👨‍🍳',perms:['orders','menu']},
+  {name:'Aditya', username:'darkaditya09', password:'Ad82710333#', role:'SuperAdmin', emoji:'🔑', perms:['ads','settings','accounts','audit','menu','orders','revenue','report']},
+  {name:'Lions',  username:'resturent',    password:'royal2024',   role:'Owner',      emoji:'👑', perms:['orders','revenue','report','menu','accounts','settings','audit','ads']},
 ];
+// All permission keys available to assign to staff
+const ALL_PERMS = ['orders','revenue','report','menu','audit'];
+const PERM_LABELS = {orders:'Live Orders', revenue:'Revenue', report:'Item Report', menu:'Menu Management', audit:'Audit Log'};
+// Dynamic staff accounts — created by Owner, stored in Firebase 'staff' collection
+let STAFF_ACCOUNTS = [];
 const MENU=[
   {id:1, name:'Dum Biryani Special',   emoji:'🍚',cat:'Biryani',  price:380,desc:'Slow-cooked basmati with saffron & royal spices',           special:true},
   {id:2, name:'Galouti Kebab',         emoji:'🥩',cat:'Kebabs',   price:320,desc:'Melt-in-mouth kebabs, 100+ spices, legendary recipe',        special:true},
@@ -993,6 +1054,8 @@ async function initApp(){
   auditLog=rawA.sort((a,b)=>(b.time||0)-(a.time||0));
   const rawU=await fbGetAll('customers');
   if(rawU.length){regUsers=rawU;localStorage.setItem('tl_users',JSON.stringify(regUsers));}
+  const rawS=await fbGetAll('staff');
+  STAFF_ACCOUNTS=rawS;
   setFbStatus(true);
   renderAllAds();renderLandingSpecials();
   document.getElementById('init-loader').style.display='none';
@@ -1071,8 +1134,14 @@ async function doLogin(){
   const u=document.getElementById('login-username').value.trim();
   const p=document.getElementById('login-password').value.trim();
   if(!u||!p){showToast('Enter credentials','error');return;}
+  // 1. Check fixed admins (SuperAdmin, Owner)
   const admin=ADMINS.find(a=>(a.username===u||a.name===u)&&a.password===p);
   if(admin){currentUser={...admin,isAdmin:true};onLoginOK();addAudit(`${admin.name} logged in as ${admin.role}`);showToast(`Welcome, ${admin.name}! 🦁`);showPage('admin');return;}
+  // 2. Check dynamic staff accounts (created by Owner, stored in Firebase)
+  const staff=STAFF_ACCOUNTS.find(a=>a.username===u&&a.password===p&&a.active!==false);
+  if(staff){currentUser={...staff,isAdmin:true,role:staff.role||'Staff'};onLoginOK();addAudit(`${staff.name} logged in as ${staff.role||'Staff'}`);showToast(`Welcome, ${staff.name}! 🦁`);showPage('admin');return;}
+  if(STAFF_ACCOUNTS.find(a=>a.username===u&&a.active===false)){showToast('This staff account has been disabled','error');return;}
+  // 3. Check registered customers
   const reg=regUsers.find(r=>(r.username===u||r.email===u)&&r.password===p);
   if(reg){currentUser={...reg,isAdmin:false};onLoginOK();showToast(`Welcome back, ${reg.name}! 🦁`);showPage('dashboard');return;}
   showToast('Invalid credentials','error');
@@ -1321,7 +1390,112 @@ async function toggleMenuItem(id,el){menuVis[id]=!menuVis[id];el.classList.toggl
 function renderAdminAdsList(){const el=document.getElementById('admin-ads-list');if(!el)return;const labels=['Landing Ad 1','Landing Ad 2','Landing Ad 3','Dashboard Ad 1','Dashboard Ad 2','Dashboard Ad 3'];el.innerHTML=ADS.map((a,i)=>`<div style="background:var(--dark2);border:var(--border-gold);border-radius:var(--radius-sm);padding:20px;margin-bottom:16px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><strong style="font-family:var(--font-display);font-size:18px;color:var(--gold)">${labels[i]}: ${a.title}</strong><button class="btn-outline btn-sm" onclick="openAdEdit(${i})">✏ Edit</button></div><div style="background:${a.bg};color:${a.tc||'white'};height:60px;border-radius:6px;display:flex;align-items:center;padding:0 16px;gap:12px;font-family:var(--font-ui)"><span style="font-size:24px">${a.icon}</span><div><strong style="font-size:13px">${a.title}</strong><br><span style="font-size:11px;opacity:.8">${a.desc}</span></div></div><div style="margin-top:8px;font-family:var(--font-ui);font-size:11px;color:var(--text-muted)">🔗 <a href="${a.url}" target="_blank" style="color:var(--gold)">${a.url}</a></div></div>`).join('');}
 function openAdEdit(idx){const a=ADS[idx];document.getElementById('edit-ad-idx').value=idx;document.getElementById('edit-ad-title').value=a.title;document.getElementById('edit-ad-url').value=a.url;document.getElementById('edit-ad-desc').value=a.desc;document.getElementById('edit-ad-icon').value=a.icon;document.getElementById('edit-ad-bg').value=a.bg;document.getElementById('edit-ad-tc').value=a.tc||'white';document.getElementById('ad-edit-modal').classList.add('open');}
 async function saveAdEdit(){const idx=parseInt(document.getElementById('edit-ad-idx').value);ADS[idx]={title:document.getElementById('edit-ad-title').value,url:document.getElementById('edit-ad-url').value,desc:document.getElementById('edit-ad-desc').value,icon:document.getElementById('edit-ad-icon').value,bg:document.getElementById('edit-ad-bg').value,tc:document.getElementById('edit-ad-tc').value};closeModal('ad-edit-modal');await addAudit(`Ad Slot ${idx+1} updated: "${ADS[idx].title}"`);showToast('Ad saved to Firebase!');await saveSettingsFb();renderAllAds();renderAdminAdsList();}
-function renderAdminAccounts(){const PL={orders:'Orders',revenue:'Revenue',report:'Reports',menu:'Menu',ads:'Ads',accounts:'Accounts',settings:'Settings',audit:'Audit'};const g=document.getElementById('admin-accounts-grid');if(!g)return;g.innerHTML=ADMINS.map(a=>`<div class="account-card"><div class="account-role role-${a.role.toLowerCase().replace(' ','')}">${a.role}</div><div class="account-name">${a.emoji} ${a.name}</div><div class="account-username">@${a.username}</div><div class="account-perms">${a.perms.map(p=>`<span class="perm-tag">${PL[p]||p}</span>`).join('')}</div></div>`).join('');}
+const PL={orders:'Live Orders',revenue:'Revenue',report:'Item Report',menu:'Menu',ads:'Ads',accounts:'Accounts',settings:'Settings',audit:'Audit'};
+function renderAdminAccounts(){
+  const g=document.getElementById('admin-accounts-grid');
+  if(g) g.innerHTML=ADMINS.map(a=>`<div class="account-card"><div class="account-role role-${a.role.toLowerCase().replace(' ','')}">${a.role}</div><div class="account-name">${a.emoji} ${a.name}</div><div class="account-username">@${a.username}</div><div class="account-perms">${a.perms.map(p=>`<span class="perm-tag">${PL[p]||p}</span>`).join('')}</div></div>`).join('');
+  // Show "Add Staff" button only for users who can manage accounts (Owner/SuperAdmin)
+  const btn=document.getElementById('btn-add-staff');
+  if(btn) btn.style.display=hasPerm('accounts')?'inline-flex':'none';
+  renderStaffGrid();
+}
+function renderStaffGrid(){
+  const g=document.getElementById('staff-accounts-grid');
+  if(!g) return;
+  const canManage=hasPerm('accounts');
+  if(!STAFF_ACCOUNTS.length){
+    g.innerHTML='<p style="color:var(--text-muted);font-family:var(--font-ui);font-size:13px">No staff accounts yet. Click "+ Add Staff" to create one.</p>';
+    return;
+  }
+  g.innerHTML=STAFF_ACCOUNTS.map(s=>`
+    <div class="account-card" style="${s.active===false?'opacity:.5':''}">
+      <div class="account-role role-staff">${s.role||'Staff'}${s.active===false?' · DISABLED':''}</div>
+      <div class="account-name">${s.emoji||'🧑'} ${s.name}</div>
+      <div class="account-username">@${s.username}</div>
+      <div class="account-perms">${(s.perms||[]).map(p=>`<span class="perm-tag">${PL[p]||p}</span>`).join('')||'<span class="perm-tag">No access set</span>'}</div>
+      ${canManage?`
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn-outline btn-sm" onclick='openStaffModal(${JSON.stringify(s._id)})'>✏ Edit</button>
+          <button class="btn-danger btn-sm" onclick='askDeleteStaff(${JSON.stringify(s._id)},${JSON.stringify(s.name)})'>🗑 Delete</button>
+        </div>
+      `:''}
+    </div>`).join('');
+}
+/* ══════════════════════════════════════════════
+   STAFF MANAGEMENT (Owner / SuperAdmin only)
+══════════════════════════════════════════════ */
+let editingStaffId=null;
+function openStaffModal(staffId){
+  editingStaffId=staffId||null;
+  const existing=staffId?STAFF_ACCOUNTS.find(s=>s._id===staffId):null;
+  document.getElementById('staff-modal-title').textContent=existing?'✏ Edit Staff Account':'👤 Add Staff Account';
+  document.getElementById('staff-edit-id').value=staffId||'';
+  document.getElementById('staff-name').value=existing?existing.name:'';
+  document.getElementById('staff-username').value=existing?existing.username:'';
+  document.getElementById('staff-password').value=existing?existing.password:'';
+  document.getElementById('staff-role').value=existing?(existing.role||''):'';
+  document.getElementById('staff-emoji').value=existing?(existing.emoji||'🧑'):'🧑';
+  document.getElementById('staff-active-toggle').classList.toggle('on', existing?existing.active!==false:true);
+  // Render permission checkboxes
+  const box=document.getElementById('staff-perms-checkboxes');
+  const existingPerms=existing?(existing.perms||[]):[];
+  box.innerHTML=ALL_PERMS.map(p=>`
+    <label style="display:flex;align-items:center;gap:10px;font-family:var(--font-ui);font-size:13px;color:var(--cream);cursor:pointer">
+      <input type="checkbox" class="staff-perm-cb" value="${p}" ${existingPerms.includes(p)?'checked':''} style="accent-color:var(--gold);width:16px;height:16px">
+      ${PERM_LABELS[p]||p}
+    </label>`).join('');
+  document.getElementById('staff-modal').classList.add('open');
+}
+async function saveStaffAccount(){
+  const name=document.getElementById('staff-name').value.trim();
+  const username=document.getElementById('staff-username').value.trim();
+  const password=document.getElementById('staff-password').value.trim();
+  const role=document.getElementById('staff-role').value.trim()||'Staff';
+  const emoji=document.getElementById('staff-emoji').value.trim()||'🧑';
+  const active=document.getElementById('staff-active-toggle').classList.contains('on');
+  const perms=[...document.querySelectorAll('.staff-perm-cb:checked')].map(cb=>cb.value);
+
+  if(!name||!username||!password){showToast('Fill in name, username and password','error');return;}
+
+  // Prevent duplicate usernames (against ADMINS and other staff)
+  const usernameTaken = ADMINS.some(a=>a.username===username) ||
+    STAFF_ACCOUNTS.some(s=>s.username===username && s._id!==editingStaffId);
+  if(usernameTaken){showToast('That username is already taken','error');return;}
+
+  const data={name,username,password,role,emoji,active,perms};
+
+  if(editingStaffId){
+    await fbUpdate('staff',editingStaffId,data);
+    const idx=STAFF_ACCOUNTS.findIndex(s=>s._id===editingStaffId);
+    if(idx>=0) STAFF_ACCOUNTS[idx]={...STAFF_ACCOUNTS[idx],...data};
+    await addAudit(`Staff account updated: ${name} (@${username}) by ${currentUser.name}`);
+    showToast('Staff account updated!');
+  }else{
+    const newId=await fbAdd('staff',data);
+    if(newId) STAFF_ACCOUNTS.push({_id:newId,...data});
+    await addAudit(`New staff account created: ${name} (@${username}) by ${currentUser.name}`);
+    showToast('Staff account created!');
+  }
+  closeModal('staff-modal');
+  renderStaffGrid();
+}
+let staffToDelete=null;
+function askDeleteStaff(id,name){
+  staffToDelete=id;
+  document.getElementById('del-staff-name-lbl').textContent=name;
+  document.getElementById('del-staff-modal').classList.add('open');
+}
+async function confirmDeleteStaff(){
+  if(!staffToDelete) return;
+  const s=STAFF_ACCOUNTS.find(x=>x._id===staffToDelete);
+  await fbDel('staff',staffToDelete);
+  STAFF_ACCOUNTS=STAFF_ACCOUNTS.filter(x=>x._id!==staffToDelete);
+  await addAudit(`Staff account deleted: ${s?s.name:''} by ${currentUser.name}`);
+  showToast('Staff account deleted','info');
+  closeModal('del-staff-modal');
+  staffToDelete=null;
+  renderStaffGrid();
+}
 function loadSettingsUI(){const gOn=settings.gstEnabled||false;const tog=document.getElementById('gst-toggle'),lbl=document.getElementById('gst-status-label'),fields=document.getElementById('gst-fields');if(tog)tog.classList.toggle('on',gOn);if(lbl)lbl.textContent=gOn?'ON':'OFF';if(fields)fields.style.display=gOn?'block':'none';const gn=document.getElementById('gst-number'),gp=document.getElementById('gst-percent');if(gn)gn.value=settings.gstNumber||'';if(gp)gp.value=settings.gstPercent||5;const fc=document.getElementById('footer-copyright-input');if(fc)fc.value=settings.footerCopyright||'© 2024 The Lion Restaurant. All Rights Reserved.';const tc=document.getElementById('terms-content');if(tc)tc.value=settings.terms||'1. All orders once placed are final.\n2. Management reserves right to refuse service.';}
 async function saveSettingsFb(){settings.adsData=ADS;settings.menuVis=menuVis;await fbSave('settings','global',settings);}
 async function toggleGST(){settings.gstEnabled=!settings.gstEnabled;await saveSettingsFb();loadSettingsUI();addAudit(`GST ${settings.gstEnabled?'enabled':'disabled'}`);showToast(`GST ${settings.gstEnabled?'enabled':'disabled'}`);}
