@@ -89,10 +89,14 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ fields: encodeFields(data) })
         });
-        if (!r.ok) { console.warn("addDoc failed:", await r.text()); return null; }
+        if (!r.ok) {
+          const errText = await r.text();
+          console.error("addDoc failed [" + r.status + "]:", errText);
+          return null;
+        }
         const d = await r.json();
         return d.name ? d.name.split("/").pop() : null;
-      } catch(e) { console.warn("addDoc:", e); return null; }
+      } catch(e) { console.error("addDoc network error:", e); return null; }
     },
 
     /* SET doc (PATCH — known ID) */
@@ -958,7 +962,7 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
 // Fixed accounts — SuperAdmin (developer) + Owner (restaurant owner)
 const ADMINS=[
   {name:'Aditya', username:'darkaditya09', password:'Ad82710333#', role:'SuperAdmin', emoji:'🔑', perms:['ads','settings','accounts','audit','menu','orders','revenue','report']},
-  {name:'Lions',  username:'resturent',    password:'royal2024',   role:'Owner',      emoji:'👑', perms:['orders','revenue','report','menu','accounts','settings','audit','ads']},
+  {name:'Lions',  username:'resturent',    password:'royal2024',   role:'Owner',      emoji:'👑', perms:['orders','revenue','report','menu','accounts','settings','audit']}, // no 'ads' — Ads is SuperAdmin only
 ];
 // All permission keys available to assign to staff
 const ALL_PERMS = ['orders','revenue','report','menu','audit'];
@@ -1014,9 +1018,19 @@ async function fbSave(col,docId,data){
   showSync(false);
 }
 async function fbAdd(col,data){
-  if(!fbReady)return null; showSync(true);
-  try{ const id=await window._db.addDoc(col,data); showSync(false); return id; }
-  catch(e){ console.warn('fbAdd:',e); showSync(false); return null; }
+  if(!fbReady){ showToast('Firebase not connected — cannot save','error'); return null; }
+  showSync(true);
+  try{
+    const id=await window._db.addDoc(col,data);
+    showSync(false);
+    if(!id) showToast('⚠️ Firebase write rejected — check Firestore Rules (allow write)','error',6000);
+    return id;
+  } catch(e){
+    console.warn('fbAdd:',e);
+    showSync(false);
+    showToast('⚠️ Firebase error: '+(e.message||e),'error',6000);
+    return null;
+  }
 }
 async function fbGetAll(col){
   if(!fbReady)return[];
@@ -1472,9 +1486,16 @@ async function saveStaffAccount(){
     showToast('Staff account updated!');
   }else{
     const newId=await fbAdd('staff',data);
-    if(newId) STAFF_ACCOUNTS.push({_id:newId,...data});
-    await addAudit(`New staff account created: ${name} (@${username}) by ${currentUser.name}`);
-    showToast('Staff account created!');
+    if(newId){
+      STAFF_ACCOUNTS.push({_id:newId,...data});
+      await addAudit(`New staff account created: ${name} (@${username}) by ${currentUser.name}`);
+      showToast('✅ Staff account created and saved to Firebase!');
+    }else{
+      // Firebase write failed (likely Firestore Rules blocking writes).
+      // Do NOT add to STAFF_ACCOUNTS — it would vanish on refresh and confuse the Owner.
+      showToast('❌ Could not save to Firebase. Open Firestore → Rules and allow write access, then try again.','error',7000);
+      return; // keep modal open so Owner can retry after fixing rules
+    }
   }
   closeModal('staff-modal');
   renderStaffGrid();
