@@ -221,9 +221,15 @@ select.form-input option{background:var(--dark3)}.form-row{display:grid;grid-tem
 .section-title span{color:var(--gold);font-style:italic}
 .section-desc{font-size:17px;color:var(--text-muted);max-width:600px;margin:0 auto}
 .specials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
-.special-card{background:var(--dark2);border:var(--border-gold);border-radius:var(--radius);overflow:hidden;transition:all .4s}
+.special-card{background:var(--dark2);border:var(--border-gold);border-radius:var(--radius);overflow:hidden;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease;perspective:800px}
 .special-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-gold)}
-.special-card-img{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:64px;background:linear-gradient(135deg,var(--dark3),var(--dark2))}
+.special-card-img{width:100%;height:200px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--dark3),var(--dark2));perspective:800px}
+.special-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .5s ease;filter:brightness(.92) saturate(1.05)}
+.special-card:hover .special-card-img img{transform:scale(1.12) rotateX(3deg) rotateY(-3deg);filter:brightness(1.05) saturate(1.15)}
+.special-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(10,10,10,.7) 100%);pointer-events:none}
+.special-card-img .se-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:64px}
+.special-card-img img.img-broken{display:none}
+.special-card-img img.img-broken + .se-fallback{display:flex}
 .special-card-body{padding:24px}
 .special-badge{display:inline-block;background:var(--gold);color:var(--black);font-family:var(--font-ui);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:2px;margin-bottom:12px}
 .special-name{font-family:var(--font-display);font-size:22px;color:var(--cream);margin-bottom:8px}
@@ -252,7 +258,8 @@ footer{background:var(--dark);border-top:var(--border-gold);padding:60px 40px 30
 .footer-links li span{font-size:14px;color:var(--text-muted);transition:color .3s;cursor:pointer}
 .footer-links li span:hover{color:var(--gold)}
 .footer-bottom{border-top:var(--border-gold);padding-top:24px;display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;font-family:var(--font-ui);font-size:12px;color:var(--text-muted)}
-#page-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#1a1200 0,#0A0A0A 70%);padding-top:70px}
+#page-login{min-height:100vh;background:radial-gradient(ellipse at center,#1a1200 0,#0A0A0A 70%);padding-top:70px}
+#page-login.active{display:flex;align-items:center;justify-content:center}
 .login-box{width:100%;max-width:480px;background:var(--dark2);border:var(--border-gold);border-radius:var(--radius);padding:48px;box-shadow:var(--shadow)}
 .login-logo{text-align:center;margin-bottom:32px}
 .login-logo-icon{width:70px;height:70px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 12px}
@@ -270,8 +277,14 @@ footer{background:var(--dark);border-top:var(--border-gold);padding:60px 40px 30
 .specials-strip{margin-bottom:32px;background:var(--dark2);border:var(--border-gold);border-radius:var(--radius);padding:24px}
 .specials-strip-title{font-family:var(--font-display);font-size:20px;color:var(--gold);margin-bottom:16px}
 .specials-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px}
-.special-mini{flex-shrink:0;width:180px;background:var(--dark3);border:var(--border-gold);border-radius:var(--radius-sm);padding:16px;text-align:center}
-.special-mini .em{font-size:32px;margin-bottom:8px}
+.special-mini{flex-shrink:0;width:180px;background:var(--dark3);border:var(--border-gold);border-radius:var(--radius-sm);overflow:hidden;text-align:center}
+.special-mini .mini-img{height:90px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--dark2),var(--dark))}
+.special-mini .mini-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.special-mini:hover .mini-img img{transform:scale(1.08)}
+.special-mini .mini-img .em{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:32px;margin:0}
+.special-mini .mini-img img.img-broken{display:none}
+.special-mini .mini-img img.img-broken + .em{display:flex}
+.special-mini .mini-body{padding:12px 16px 16px}
 .special-mini h4{font-family:var(--font-display);font-size:15px;color:var(--cream);margin-bottom:4px}
 .special-mini .pr{color:var(--gold);font-family:var(--font-display);font-size:16px}
 .special-mini p{font-size:11px;color:var(--text-muted);margin-bottom:8px}
@@ -315,9 +328,48 @@ footer{background:var(--dark);border-top:var(--border-gold);padding:60px 40px 30
 .menu-section-title{font-family:var(--font-display);font-size:32px;color:var(--cream);margin-bottom:28px;display:flex;align-items:center;gap:16px}
 .menu-section-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dark),transparent)}
 .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:48px}
-.menu-item-card{background:var(--dark2);border:var(--border-gold);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:all .3s}
+.menu-item-card{background:var(--dark2);border:var(--border-gold);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease;perspective:800px}
 .menu-item-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-gold)}.menu-item-card.item-hidden{opacity:.35;pointer-events:none}
 .menu-item-emoji{height:120px;display:flex;align-items:center;justify-content:center;font-size:52px;background:linear-gradient(135deg,var(--dark3),var(--dark))}
+/* 3D Photo Card */
+.menu-item-photo{
+  height:180px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--dark3),var(--dark));
+  perspective:800px;
+}
+.menu-item-photo img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .5s ease;
+  transform:scale(1.02) translateZ(0);
+  filter:brightness(.92) saturate(1.05);
+}
+.menu-item-card:hover .menu-item-photo img{
+  transform:scale(1.12) rotateX(3deg) rotateY(-3deg) translateZ(20px);
+  filter:brightness(1.05) saturate(1.15);
+}
+.menu-item-photo::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(10,10,10,.85) 100%);
+  pointer-events:none;
+}
+.menu-item-photo::before{
+  content:'';position:absolute;inset:0;z-index:2;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.35);
+  pointer-events:none;
+}
+.menu-item-photo .photo-emoji-fallback{
+  position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:52px;
+}
+.menu-item-photo img.img-broken{display:none}
+.menu-item-photo img.img-broken + .photo-emoji-fallback{display:flex}
+.menu-item-photo .special-ribbon{
+  position:absolute;top:10px;right:-28px;z-index:3;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+  color:var(--black);font-family:var(--font-ui);font-size:9px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:4px 32px;transform:rotate(40deg);
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
+}
 .menu-item-body{padding:20px;flex:1;display:flex;flex-direction:column}
 .menu-item-cat{font-family:var(--font-ui);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
 .menu-item-name{font-family:var(--font-display);font-size:20px;color:var(--cream);margin-bottom:8px}
@@ -411,9 +463,9 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
   <div class="nav-links">
     <button class="nav-link" onclick="showPage('landing')"><span data-en>Home</span><span data-hi>होम</span></button>
     <button class="nav-link" onclick="showPage('menu')"><span data-en>Menu</span><span data-hi>मेनू</span></button>
-    <button class="nav-link" id="nav-myorders" style="display:none" onclick="showPage('dashboard')"><span data-en>My Orders</span><span data-hi>मेरे ऑर्डर</span></button>
+    <button class="nav-link" id="nav-myorders" onclick="showPage('dashboard')"><span data-en>My Orders</span><span data-hi>मेरे ऑर्डर</span></button>
     <button class="nav-link" id="nav-admin" style="display:none" onclick="showPage('admin')"><span data-en>Admin</span><span data-hi>एडमिन</span></button>
-    <button class="nav-link" id="nav-login-btn" onclick="showPage('login')"><span data-en>Login</span><span data-hi>लॉगिन</span></button>
+    <button class="nav-link" id="nav-login-btn" onclick="showPage('login')"><span data-en>Staff Login</span><span data-hi>स्टाफ लॉगिन</span></button>
     <button class="nav-link" id="nav-logout-btn" style="display:none" onclick="logout()"><span data-en>Logout</span><span data-hi>लॉगआउट</span></button>
   </div>
   <div class="nav-actions">
@@ -432,7 +484,7 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
       <p class="hero-subtitle"><span data-en>Where Every Meal Is a Royal Experience</span><span data-hi>जहाँ हर भोजन एक शाही अनुभव है</span></p>
       <div class="hero-actions">
         <button class="btn-gold" onclick="showPage('menu')">🍽 <span data-en>View Menu</span><span data-hi>मेनू देखें</span></button>
-        <button class="btn-outline" onclick="showPage('login')">🦁 <span data-en>Reserve Table</span><span data-hi>टेबल बुक करें</span></button>
+        <button class="btn-outline" onclick="showPage('menu')">🦁 <span data-en>Reserve Table</span><span data-hi>टेबल बुक करें</span></button>
       </div>
     </div>
     <div class="hero-scroll"><span data-en>Scroll Down</span><span data-hi>नीचे स्क्रॉल करें</span><span>↓</span></div>
@@ -493,7 +545,7 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
         <ul class="footer-links">
           <li><span onclick="showPage('landing')">Home</span></li>
           <li><span onclick="showPage('menu')">Menu</span></li>
-          <li><span onclick="showPage('login')">Login</span></li>
+          <li><span onclick="showPage('login')">Staff Login</span></li>
         </ul>
       </div>
       <div>
@@ -528,28 +580,11 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
         <h2>The Lion</h2>
         <p>PREMIUM RESTAURANT</p>
       </div>
-      <div class="login-tabs">
-        <button class="login-tab active" id="tab-login" onclick="switchLoginTab('login')"><span data-en>Sign In</span><span data-hi>लॉगिन</span></button>
-        <button class="login-tab" id="tab-register" onclick="switchLoginTab('register')"><span data-en>Register</span><span data-hi>रजिस्टर</span></button>
-      </div>
+      <p class="modal-subtitle" style="text-align:center;margin-bottom:24px"><span data-en>Staff &amp; Admin Login Only</span><span data-hi>केवल स्टाफ और एडमिन लॉगिन</span></p>
       <div id="login-form-div">
         <div class="form-group"><label class="form-label"><span data-en>Username or Email</span><span data-hi>यूज़रनेम या ईमेल</span></label><input type="text" class="form-input" id="login-username" placeholder="Enter username..."></div>
         <div class="form-group"><label class="form-label"><span data-en>Password</span><span data-hi>पासवर्ड</span></label><input type="password" class="form-input" id="login-password" placeholder="••••••••"></div>
-        <div style="text-align:right;margin-top:-10px;margin-bottom:18px">
-          <span onclick="openForgotPasswordModal()" style="font-family:var(--font-ui);font-size:11px;color:var(--gold);cursor:pointer;text-decoration:underline">
-            <span data-en>Forgot Password?</span><span data-hi>पासवर्ड भूल गए?</span>
-          </span>
-        </div>
         <button class="btn-gold" style="width:100%;margin-top:8px" onclick="doLogin()">🦁 <span data-en>Enter The Lion</span><span data-hi>The Lion में प्रवेश</span></button>
-      </div>
-      <div id="register-form-div" style="display:none">
-        <div class="form-group"><label class="form-label"><span data-en>Full Name</span><span data-hi>पूरा नाम</span></label><input type="text" class="form-input" id="reg-name" placeholder="Your name..."></div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" id="reg-username" placeholder="username..."></div>
-          <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="reg-email" placeholder="email@..."></div>
-        </div>
-        <div class="form-group"><label class="form-label"><span data-en>Password</span><span data-hi>पासवर्ड</span></label><input type="password" class="form-input" id="reg-password" placeholder="••••••••"></div>
-        <button class="btn-gold" style="width:100%;margin-top:8px" onclick="doRegister()"><span data-en>Join The Pride</span><span data-hi>हमसे जुड़ें</span></button>
       </div>
     </div>
   </div>
@@ -566,28 +601,37 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
     <div class="menu-cat-nav" id="menu-cat-nav"></div>
     <div id="menu-items-container"></div>
   </div>
-  <button class="cart-fab" onclick="openCartModal()" id="cart-fab" style="display:none">🛒<span class="cart-badge" id="cart-badge">0</span></button>
-  <button class="sound-btn" id="sound-btn" onclick="toggleSound()" style="display:none">🔔</button>
+  <button class="cart-fab" onclick="openCartModal()" id="cart-fab">🛒<span class="cart-badge" id="cart-badge">0</span></button>
+  <button class="sound-btn" id="sound-btn" onclick="toggleSound()">🔔</button>
 </div>
 
 <!-- CUSTOMER DASHBOARD -->
 <div id="page-dashboard" class="page">
   <div class="dashboard-header">
-    <div class="dashboard-title">🦁 <span data-en>Welcome</span><span data-hi>स्वागत</span> <span id="dash-user-name"></span></div>
-    <div class="dashboard-subtitle" id="dash-subtitle"></div>
+    <div class="dashboard-title">🦁 <span data-en>My Orders</span><span data-hi>मेरे ऑर्डर</span></div>
+    <div class="dashboard-subtitle" id="dash-subtitle"><span data-en>Enter your mobile number to view your orders</span><span data-hi>अपने ऑर्डर देखने के लिए मोबाइल नंबर डालें</span></div>
   </div>
   <div class="dashboard-content">
+    <!-- Mobile lookup box -->
+    <div class="orders-section" style="max-width:480px;margin:0 auto 24px">
+      <div class="form-group" style="margin-bottom:14px">
+        <label class="form-label"><span data-en>Your Mobile Number</span><span data-hi>आपका मोबाइल नंबर</span></label>
+        <input type="tel" class="form-input" id="lookup-mobile" placeholder="10-digit mobile number" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+      </div>
+      <button class="btn-gold" style="width:100%" onclick="lookupMyOrders()">🔍 <span data-en>View My Orders</span><span data-hi>मेरे ऑर्डर देखें</span></button>
+    </div>
+
     <div class="dashboard-ads-strip" id="dash-ads-grid"></div>
     <div class="specials-strip">
       <div class="specials-strip-title">✨ <span data-en>Today's Specials</span><span data-hi>आज के विशेष</span></div>
       <div class="specials-scroll" id="dash-specials"></div>
     </div>
-    <div class="orders-section">
+    <div class="orders-section" id="my-orders-section" style="display:none">
       <div class="orders-header">
-        <div class="orders-title"><span data-en>My Orders</span><span data-hi>मेरे ऑर्डर</span></div>
+        <div class="orders-title"><span data-en>Your Order History</span><span data-hi>आपका ऑर्डर इतिहास</span></div>
         <button class="btn-gold btn-sm" onclick="showPage('menu')">+ <span data-en>New Order</span><span data-hi>नया ऑर्डर</span></button>
       </div>
-      <div id="customer-orders-list"><p style="color:var(--text-muted);font-family:var(--font-ui);font-size:13px;padding:20px 0">Loading orders…</p></div>
+      <div id="customer-orders-list"></div>
     </div>
   </div>
 </div>
@@ -771,6 +815,16 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
       <strong style="font-family:var(--font-display);font-size:18px;color:var(--cream)"><span data-en>Total</span><span data-hi>कुल</span></strong>
       <strong style="font-family:var(--font-display);font-size:24px;color:var(--gold)" id="cart-total-display">₹0</strong>
     </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en>Your Name</span><span data-hi>आपका नाम</span></label>
+        <input type="text" class="form-input" id="cust-name" placeholder="Enter your name...">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en>Mobile Number</span><span data-hi>मोबाइल नंबर</span></label>
+        <input type="tel" class="form-input" id="cust-mobile" placeholder="10-digit mobile number" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+      </div>
+    </div>
     <div class="form-group">
       <label class="form-label"><span data-en>Order Type</span><span data-hi>ऑर्डर प्रकार</span></label>
       <select class="form-input" id="order-type" onchange="handleOTChange()">
@@ -793,10 +847,6 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
     <div class="form-group" id="addr-grp" style="display:none">
       <label class="form-label"><span data-en>Delivery Address</span><span data-hi>डिलीवरी पता</span></label>
       <textarea class="form-input" id="delivery-addr" rows="3" placeholder="Full address..."></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-label"><span data-en>Payment</span><span data-hi>भुगतान</span></label>
-      <select class="form-input" id="payment-status"><option value="unpaid">Unpaid</option><option value="paid">Paid</option></select>
     </div>
     <div class="form-group">
       <label class="form-label"><span data-en>Special Instructions</span><span data-hi>विशेष निर्देश</span></label>
@@ -914,47 +964,6 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
   </div>
 </div>
 
-<!-- FORGOT PASSWORD MODAL -->
-<div class="modal-overlay" id="forgot-password-modal">
-  <div class="modal-box" style="max-width:440px">
-    <h2 class="modal-title">🔑 <span data-en>Reset Password</span><span data-hi>पासवर्ड रीसेट करें</span></h2>
-    <p class="modal-subtitle" id="fp-step1-subtitle"><span data-en>Enter your registered username or email</span><span data-hi>अपना रजिस्टर्ड यूज़रनेम या ईमेल डालें</span></p>
-
-    <!-- STEP 1: Verify identity -->
-    <div id="fp-step1">
-      <div class="form-group">
-        <label class="form-label"><span data-en>Username or Email</span><span data-hi>यूज़रनेम या ईमेल</span></label>
-        <input type="text" class="form-input" id="fp-identifier" placeholder="Enter username or email...">
-      </div>
-      <div style="display:flex;gap:12px;margin-top:8px">
-        <button class="btn-gold" style="flex:1" onclick="verifyForgotIdentity()"><span data-en>Continue</span><span data-hi>आगे बढ़ें</span></button>
-        <button class="btn-outline" onclick="closeForgotPasswordModal()"><span data-en>Cancel</span><span data-hi>रद्द करें</span></button>
-      </div>
-    </div>
-
-    <!-- STEP 2: Set new password -->
-    <div id="fp-step2" style="display:none">
-      <div style="background:var(--dark3);border:var(--border-gold);border-radius:var(--radius-sm);padding:14px;margin-bottom:18px">
-        <p style="font-family:var(--font-ui);font-size:12px;color:var(--text-muted)">
-          <span data-en>Account found:</span><span data-hi>खाता मिला:</span>
-          <strong style="color:var(--gold)" id="fp-found-name"></strong>
-        </p>
-      </div>
-      <div class="form-group">
-        <label class="form-label"><span data-en>New Password</span><span data-hi>नया पासवर्ड</span></label>
-        <input type="password" class="form-input" id="fp-new-password" placeholder="••••••••">
-      </div>
-      <div class="form-group">
-        <label class="form-label"><span data-en>Confirm New Password</span><span data-hi>नया पासवर्ड दोहराएं</span></label>
-        <input type="password" class="form-input" id="fp-confirm-password" placeholder="••••••••">
-      </div>
-      <div style="display:flex;gap:12px;margin-top:8px">
-        <button class="btn-gold" style="flex:1" onclick="resetPasswordSubmit()">🔑 <span data-en>Reset Password</span><span data-hi>पासवर्ड रीसेट करें</span></button>
-        <button class="btn-outline" onclick="closeForgotPasswordModal()"><span data-en>Cancel</span><span data-hi>रद्द करें</span></button>
-      </div>
-    </div>
-  </div>
-</div>
 <script>
 /* ══════════════════════════════════════════════
    STATIC DATA
@@ -970,21 +979,21 @@ const PERM_LABELS = {orders:'Live Orders', revenue:'Revenue', report:'Item Repor
 // Dynamic staff accounts — created by Owner, stored in Firebase 'staff' collection
 let STAFF_ACCOUNTS = [];
 const MENU=[
-  {id:1, name:'Dum Biryani Special',   emoji:'🍚',cat:'Biryani',  price:380,desc:'Slow-cooked basmati with saffron & royal spices',           special:true},
-  {id:2, name:'Galouti Kebab',         emoji:'🥩',cat:'Kebabs',   price:320,desc:'Melt-in-mouth kebabs, 100+ spices, legendary recipe',        special:true},
-  {id:3, name:'Shahi Paneer',          emoji:'🧀',cat:'Curries',  price:280,desc:'Cottage cheese in rich cream & tomato Mughlai gravy',        special:false},
-  {id:4, name:'Nihari Gosht',          emoji:'🍖',cat:'Curries',  price:420,desc:'Slow-braised mutton overnight, served with kulcha',          special:true},
-  {id:5, name:'Roghan Josh',           emoji:'🫕',cat:'Curries',  price:400,desc:'Kashmiri lamb in aromatic spices & Kashmiri red chili',      special:false},
-  {id:6, name:'Seekh Kebab Platter',   emoji:'🍢',cat:'Kebabs',   price:350,desc:'Minced mutton kebabs on charcoal with mint chutney',         special:false},
-  {id:7, name:'Sheermal Roti',         emoji:'🫓',cat:'Breads',   price:80, desc:'Sweet saffron flatbread, baked in tandoor',                  special:false},
-  {id:8, name:'Warqi Paratha',         emoji:'🥙',cat:'Breads',   price:70, desc:'Flaky layered paratha with ghee',                            special:false},
-  {id:9, name:'Phirni',                emoji:'🍮',cat:'Desserts', price:120,desc:'Creamy rice pudding with cardamom & pistachios in clay pot', special:false},
-  {id:10,name:'Shahi Tukda',           emoji:'🍞',cat:'Desserts', price:140,desc:'Fried bread soaked in rabri, garnished with silver leaf',    special:true},
-  {id:11,name:'Rose Sharbat',          emoji:'🌹',cat:'Beverages',price:80, desc:'Rose-infused chilled drink with basil seeds',                special:false},
-  {id:12,name:'Kesar Lassi',           emoji:'🥛',cat:'Beverages',price:100,desc:'Thick saffron lassi with dry fruits & malai',                special:false},
-  {id:13,name:'Mutton Kofta Curry',    emoji:'🍛',cat:'Curries',  price:360,desc:'Spiced mutton balls in rich onion-tomato gravy',             special:false},
-  {id:14,name:'Lion Special Thali',    emoji:'🍱',cat:'Thali',    price:550,desc:'Complete meal: biryani, 2 curries, kebab, bread, dessert',   special:true},
-  {id:15,name:'Veg Lion Thali',        emoji:'🥘',cat:'Thali',    price:420,desc:'Full veg thali with 2 curries, biryani, raita & dessert',   special:false},
+  {id:1, name:'Dum Biryani Special',   emoji:'🍚',cat:'Biryani',  price:380,desc:'Slow-cooked basmati with saffron & royal spices',           special:true, img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&h=400&fit=crop&q=80'},
+  {id:2, name:'Galouti Kebab',         emoji:'🥩',cat:'Kebabs',   price:320,desc:'Melt-in-mouth kebabs, 100+ spices, legendary recipe',        special:true, img:'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&h=400&fit=crop&q=80'},
+  {id:3, name:'Shahi Paneer',          emoji:'🧀',cat:'Curries',  price:280,desc:'Cottage cheese in rich cream & tomato Mughlai gravy',        special:false, img:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=500&h=400&fit=crop&q=80'},
+  {id:4, name:'Nihari Gosht',          emoji:'🍖',cat:'Curries',  price:420,desc:'Slow-braised mutton overnight, served with kulcha',          special:true, img:'https://images.unsplash.com/photo-1545247181-516773cae754?w=500&h=400&fit=crop&q=80'},
+  {id:5, name:'Roghan Josh',           emoji:'🫕',cat:'Curries',  price:400,desc:'Kashmiri lamb in aromatic spices & Kashmiri red chili',      special:false, img:'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&h=400&fit=crop&q=80'},
+  {id:6, name:'Seekh Kebab Platter',   emoji:'🍢',cat:'Kebabs',   price:350,desc:'Minced mutton kebabs on charcoal with mint chutney',         special:false, img:'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&h=400&fit=crop&q=80'},
+  {id:7, name:'Sheermal Roti',         emoji:'🫓',cat:'Breads',   price:80, desc:'Sweet saffron flatbread, baked in tandoor',                  special:false, img:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&h=400&fit=crop&q=80'},
+  {id:8, name:'Warqi Paratha',         emoji:'🥙',cat:'Breads',   price:70, desc:'Flaky layered paratha with ghee',                            special:false, img:'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500&h=400&fit=crop&q=80'},
+  {id:9, name:'Phirni',                emoji:'🍮',cat:'Desserts', price:120,desc:'Creamy rice pudding with cardamom & pistachios in clay pot', special:false, img:'https://images.unsplash.com/photo-1631206753348-db44968fd440?w=500&h=400&fit=crop&q=80'},
+  {id:10,name:'Shahi Tukda',           emoji:'🍞',cat:'Desserts', price:140,desc:'Fried bread soaked in rabri, garnished with silver leaf',    special:true, img:'https://images.unsplash.com/photo-1606471191009-63994c53433b?w=500&h=400&fit=crop&q=80'},
+  {id:11,name:'Rose Sharbat',          emoji:'🌹',cat:'Beverages',price:80, desc:'Rose-infused chilled drink with basil seeds',                special:false, img:'https://images.unsplash.com/photo-1497534446932-c925b458314e?w=500&h=400&fit=crop&q=80'},
+  {id:12,name:'Kesar Lassi',           emoji:'🥛',cat:'Beverages',price:100,desc:'Thick saffron lassi with dry fruits & malai',                special:false, img:'https://images.unsplash.com/photo-1626202378845-d2a06598dba2?w=500&h=400&fit=crop&q=80'},
+  {id:13,name:'Mutton Kofta Curry',    emoji:'🍛',cat:'Curries',  price:360,desc:'Spiced mutton balls in rich onion-tomato gravy',             special:false, img:'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&h=400&fit=crop&q=80'},
+  {id:14,name:'Lion Special Thali',    emoji:'🍱',cat:'Thali',    price:550,desc:'Complete meal: biryani, 2 curries, kebab, bread, dessert',   special:true, img:'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&h=400&fit=crop&q=80'},
+  {id:15,name:'Veg Lion Thali',        emoji:'🥘',cat:'Thali',    price:420,desc:'Full veg thali with 2 curries, biryani, raita & dessert',   special:false, img:'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=400&fit=crop&q=80'},
 ];
 let ADS=[
   {title:'Amazon India', url:'https://www.amazon.in',   icon:'🛍',bg:'linear-gradient(135deg,#0d1a2d,#1a3a5c)',tc:'white',desc:'Shop Premium Products'},
@@ -999,7 +1008,7 @@ let menuVis={};MENU.forEach(i=>menuVis[i.id]=true);
    RUNTIME STATE
 ══════════════════════════════════════════════ */
 let orders=[],auditLog=[],settings={};
-let regUsers=JSON.parse(localStorage.getItem('tl_users')||'[]');
+let guestCustomers=JSON.parse(localStorage.getItem('tl_guest_customers')||'[]');
 let currentUser=null,cart=[],soundOn=true,lang='en',curFilter='all',delOrderId=null,fbReady=false,unsubOrders=null;
 /* ══════════════════════════════════════════════
    FIREBASE HELPERS
@@ -1067,7 +1076,7 @@ async function initApp(){
   const rawA=await fbGetAll('audit');
   auditLog=rawA.sort((a,b)=>(b.time||0)-(a.time||0));
   const rawU=await fbGetAll('customers');
-  if(rawU.length){regUsers=rawU;localStorage.setItem('tl_users',JSON.stringify(regUsers));}
+  if(rawU.length){guestCustomers=rawU;localStorage.setItem('tl_guest_customers',JSON.stringify(guestCustomers));}
   const rawS=await fbGetAll('staff');
   STAFF_ACCOUNTS=rawS;
   setFbStatus(true);
@@ -1141,9 +1150,8 @@ function showPage(p){
   if(p==='admin'){if(!currentUser||!currentUser.isAdmin){showPage('login');return;}setupAdminSidebar();switchPanel('orders');}
 }
 /* ══════════════════════════════════════════════
-   AUTH
+   AUTH — Admin & Staff only (no customer accounts)
 ══════════════════════════════════════════════ */
-function switchLoginTab(t){document.getElementById('login-form-div').style.display=t==='login'?'block':'none';document.getElementById('register-form-div').style.display=t==='register'?'block':'none';document.getElementById('tab-login').classList.toggle('active',t==='login');document.getElementById('tab-register').classList.toggle('active',t==='register');}
 async function doLogin(){
   const u=document.getElementById('login-username').value.trim();
   const p=document.getElementById('login-password').value.trim();
@@ -1155,98 +1163,21 @@ async function doLogin(){
   const staff=STAFF_ACCOUNTS.find(a=>a.username===u&&a.password===p&&a.active!==false);
   if(staff){currentUser={...staff,isAdmin:true,role:staff.role||'Staff'};onLoginOK();addAudit(`${staff.name} logged in as ${staff.role||'Staff'}`);showToast(`Welcome, ${staff.name}! 🦁`);showPage('admin');return;}
   if(STAFF_ACCOUNTS.find(a=>a.username===u&&a.active===false)){showToast('This staff account has been disabled','error');return;}
-  // 3. Check registered customers
-  const reg=regUsers.find(r=>(r.username===u||r.email===u)&&r.password===p);
-  if(reg){currentUser={...reg,isAdmin:false};onLoginOK();showToast(`Welcome back, ${reg.name}! 🦁`);showPage('dashboard');return;}
   showToast('Invalid credentials','error');
-}
-async function doRegister(){
-  const name=document.getElementById('reg-name').value.trim();
-  const username=document.getElementById('reg-username').value.trim();
-  const email=document.getElementById('reg-email').value.trim();
-  const password=document.getElementById('reg-password').value.trim();
-  if(!name||!username||!email||!password){showToast('Fill all fields','error');return;}
-  if(regUsers.find(r=>r.username===username)){showToast('Username taken','error');return;}
-  const user={name,username,email,password,joinedAt:Date.now()};
-  regUsers.push(user);localStorage.setItem('tl_users',JSON.stringify(regUsers));
-  await fbAdd('customers',user);
-  currentUser={...user,isAdmin:false};onLoginOK();
-  showToast(`Welcome to The Lion, ${name}! 🦁`);showPage('dashboard');
-}
-
-/* ══════════════════════════════════════════════
-   FORGOT PASSWORD
-══════════════════════════════════════════════ */
-let fpMatchedUser = null;
-
-function openForgotPasswordModal() {
-  fpMatchedUser = null;
-  document.getElementById('fp-identifier').value = '';
-  document.getElementById('fp-new-password').value = '';
-  document.getElementById('fp-confirm-password').value = '';
-  document.getElementById('fp-step1').style.display = 'block';
-  document.getElementById('fp-step2').style.display = 'none';
-  document.getElementById('fp-step1-subtitle').style.display = 'block';
-  document.getElementById('forgot-password-modal').classList.add('open');
-}
-function closeForgotPasswordModal() {
-  closeModal('forgot-password-modal');
-  fpMatchedUser = null;
-}
-function verifyForgotIdentity() {
-  const idVal = document.getElementById('fp-identifier').value.trim();
-  if (!idVal) { showToast('Enter your username or email', 'error'); return; }
-  const found = regUsers.find(r => r.username === idVal || r.email === idVal);
-  if (!found) { showToast('No account found with that username/email', 'error'); return; }
-  fpMatchedUser = found;
-  document.getElementById('fp-found-name').textContent = `${found.name} (@${found.username})`;
-  document.getElementById('fp-step1').style.display = 'none';
-  document.getElementById('fp-step1-subtitle').style.display = 'none';
-  document.getElementById('fp-step2').style.display = 'block';
-}
-async function resetPasswordSubmit() {
-  if (!fpMatchedUser) { showToast('Something went wrong, try again', 'error'); return; }
-  const np = document.getElementById('fp-new-password').value;
-  const cp = document.getElementById('fp-confirm-password').value;
-  if (!np || np.length < 4) { showToast('Password must be at least 4 characters', 'error'); return; }
-  if (np !== cp) { showToast('Passwords do not match', 'error'); return; }
-
-  fpMatchedUser.password = np;
-  // Update in local array
-  const idx = regUsers.findIndex(r => r.username === fpMatchedUser.username);
-  if (idx >= 0) regUsers[idx].password = np;
-  localStorage.setItem('tl_users', JSON.stringify(regUsers));
-
-  // Update in Firebase if the user doc has an _id
-  if (fpMatchedUser._id) {
-    await fbUpdate('customers', fpMatchedUser._id, { password: np });
-  } else {
-    // Find by querying all customers and matching username (fallback)
-    const all = await fbGetAll('customers');
-    const match = all.find(c => c.username === fpMatchedUser.username);
-    if (match && match._id) await fbUpdate('customers', match._id, { password: np });
-  }
-
-  await addAudit(`Password reset by customer: ${fpMatchedUser.name} (@${fpMatchedUser.username})`, 'system');
-  showToast('✅ Password reset successful! Please login with your new password.');
-  closeForgotPasswordModal();
 }
 
 function onLoginOK(){
   document.getElementById('nav-login-btn').style.display='none';
   document.getElementById('nav-logout-btn').style.display='block';
-  document.getElementById('nav-myorders').style.display=(!currentUser.isAdmin)?'block':'none';
-  document.getElementById('nav-admin').style.display=currentUser.isAdmin?'block':'none';
+  document.getElementById('nav-admin').style.display='block';
   const info=document.getElementById('nav-user-info');info.style.display='flex';
   info.innerHTML=`${currentUser.emoji||'👤'} ${currentUser.name}`;
-  document.getElementById('cart-fab').style.display='flex';
-  document.getElementById('sound-btn').style.display='flex';
 }
 async function logout(){
   await addAudit(`${currentUser.name} logged out`);
-  currentUser=null;cart=[];
-  ['nav-login-btn'].forEach(id=>{document.getElementById(id).style.display='block';});
-  ['nav-logout-btn','nav-myorders','nav-admin','nav-user-info','cart-fab','sound-btn'].forEach(id=>{document.getElementById(id).style.display='none';});
+  currentUser=null;
+  document.getElementById('nav-login-btn').style.display='block';
+  ['nav-logout-btn','nav-admin','nav-user-info'].forEach(id=>{document.getElementById(id).style.display='none';});
   showPage('landing');showToast('Logged out.');
 }
 /* ══════════════════════════════════════════════
@@ -1257,23 +1188,23 @@ function renderAllAds(){renderAds('landing-ads-grid',[0,1,2]);renderAds('dash-ad
 /* ══════════════════════════════════════════════
    LANDING SPECIALS
 ══════════════════════════════════════════════ */
-function renderLandingSpecials(){const sp=MENU.filter(i=>i.special&&menuVis[i.id]).slice(0,3);const el=document.getElementById('landing-specials');if(!el)return;el.innerHTML=sp.map(i=>`<div class="special-card"><div class="special-card-img">${i.emoji}</div><div class="special-card-body"><span class="special-badge">Chef's Special</span><div class="special-name">${i.name}</div><p class="special-desc">${i.desc}</p><div class="special-footer"><div class="special-price">${fmtC(i.price)}</div><button class="btn-gold btn-sm" onclick="showPage('menu')">View Menu</button></div></div></div>`).join('');}
+function renderLandingSpecials(){const sp=MENU.filter(i=>i.special&&menuVis[i.id]).slice(0,3);const el=document.getElementById('landing-specials');if(!el)return;el.innerHTML=sp.map(i=>`<div class="special-card"><div class="special-card-img"><img src="${i.img||''}" alt="${i.name}" loading="lazy" onerror="this.classList.add('img-broken')"><div class="se-fallback">${i.emoji}</div></div><div class="special-card-body"><span class="special-badge">Chef's Special</span><div class="special-name">${i.name}</div><p class="special-desc">${i.desc}</p><div class="special-footer"><div class="special-price">${fmtC(i.price)}</div><button class="btn-gold btn-sm" onclick="showPage('menu')">View Menu</button></div></div></div>`).join('');}
 /* ══════════════════════════════════════════════
    MENU
 ══════════════════════════════════════════════ */
 function renderMenu(){
   const cats=[...new Set(MENU.map(i=>i.cat))];
   document.getElementById('menu-cat-nav').innerHTML=`<button class="cat-btn active" onclick="scrollCat('all',this)">All</button>`+cats.map(c=>`<button class="cat-btn" onclick="scrollCat('${c}',this)">${c}</button>`).join('');
-  document.getElementById('menu-items-container').innerHTML=cats.map(cat=>`<div id="cat-${cat.replace(/\s/g,'_')}"><div class="menu-section-title">${cat}</div><div class="menu-grid">${MENU.filter(i=>i.cat===cat).map(i=>`<div class="menu-item-card ${menuVis[i.id]?'':'item-hidden'}" id="mc-${i.id}"><div class="menu-item-emoji">${i.emoji}</div><div class="menu-item-body"><div class="menu-item-cat">${i.cat}${i.special?' · ✨ Special':''}</div><div class="menu-item-name">${i.name}</div><p class="menu-item-desc">${i.desc}</p><div class="menu-item-footer"><div class="menu-item-price">${fmtC(i.price)}</div>${currentUser?`<button class="add-btn" onclick="addToCart(${i.id})">+</button>`:''}</div></div></div>`).join('')}</div></div>`).join('');
+  document.getElementById('menu-items-container').innerHTML=cats.map(cat=>`<div id="cat-${cat.replace(/\s/g,'_')}"><div class="menu-section-title">${cat}</div><div class="menu-grid">${MENU.filter(i=>i.cat===cat).map(i=>`<div class="menu-item-card ${menuVis[i.id]?'':'item-hidden'}" id="mc-${i.id}"><div class="menu-item-photo">${i.special?'<span class="special-ribbon">Special</span>':''}<img src="${i.img||''}" alt="${i.name}" loading="lazy" onerror="this.classList.add('img-broken')"><div class="photo-emoji-fallback">${i.emoji}</div></div><div class="menu-item-body"><div class="menu-item-cat">${i.cat}${i.special?' · ✨ Special':''}</div><div class="menu-item-name">${i.name}</div><p class="menu-item-desc">${i.desc}</p><div class="menu-item-footer"><div class="menu-item-price">${fmtC(i.price)}</div><button class="add-btn" onclick="addToCart(${i.id})">+</button></div></div></div>`).join('')}</div></div>`).join('');
   updateCartBadge();
 }
 function scrollCat(cat,btn){document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(cat==='all'){window.scrollTo({top:280,behavior:'smooth'});return;}const el=document.getElementById(`cat-${cat.replace(/\s/g,'_')}`);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 /* ══════════════════════════════════════════════
    CART
 ══════════════════════════════════════════════ */
-function addToCart(id){if(!currentUser){showPage('login');return;}const item=MENU.find(i=>i.id===id);if(!item||!menuVis[id])return;const ex=cart.find(c=>c.id===id);if(ex)ex.qty++;else cart.push({id,name:item.name,emoji:item.emoji,price:item.price,qty:1});updateCartBadge();showToast(`${item.emoji} ${item.name} added!`);}
+function addToCart(id){const item=MENU.find(i=>i.id===id);if(!item||!menuVis[id])return;const ex=cart.find(c=>c.id===id);if(ex)ex.qty++;else cart.push({id,name:item.name,emoji:item.emoji,price:item.price,qty:1});updateCartBadge();showToast(`${item.emoji} ${item.name} added!`);}
 function updateCartBadge(){const tot=cart.reduce((s,c)=>s+c.qty,0);const b=document.getElementById('cart-badge');if(b){b.textContent=tot;b.style.display=tot?'flex':'none';}}
-function openCartModal(){if(!currentUser){showPage('login');return;}if(!cart.length){showToast('Cart is empty!','error');return;}renderCartModal();document.getElementById('cart-modal').classList.add('open');}
+function openCartModal(){if(!cart.length){showToast('Cart is empty!','error');return;}renderCartModal();document.getElementById('cart-modal').classList.add('open');}
 function renderCartModal(){
   document.getElementById('cart-items-list').innerHTML=cart.map(c=>`<div class="cart-item-row"><span class="cart-item-name">${c.emoji} ${c.name}</span><div class="cart-item-controls"><button class="qty-btn" onclick="changeQty(${c.id},-1)">−</button><span class="cart-item-qty">${c.qty}</span><button class="qty-btn" onclick="changeQty(${c.id},1)">+</button></div><span class="cart-item-price">${fmtC(c.price*c.qty)}</span></div>`).join('');
   recalcCart();
@@ -1284,42 +1215,64 @@ function recalcCart(){const sub=cart.reduce((s,c)=>s+c.price*c.qty,0);document.g
 function changeQty(id,d){const it=cart.find(c=>c.id===id);if(!it)return;it.qty+=d;if(it.qty<=0)cart=cart.filter(c=>c.id!==id);updateCartBadge();renderCartModal();}
 function handleOTChange(){const t=document.getElementById('order-type').value;document.getElementById('tbl-grp').style.display=t==='dine-in'?'block':'none';document.getElementById('addr-grp').style.display=t==='delivery'?'block':'none';}
 async function placeOrder(){
-  if(!currentUser||!cart.length)return;
+  if(!cart.length)return;
+  const custName=document.getElementById('cust-name').value.trim();
+  const custMobile=document.getElementById('cust-mobile').value.trim();
   const type=document.getElementById('order-type').value;
   const table=document.getElementById('table-select').value;
   const addr=document.getElementById('delivery-addr').value;
-  const payment=document.getElementById('payment-status').value;
   const note=document.getElementById('order-note').value;
+  if(!custName){showToast('Please enter your name','error');return;}
+  if(!/^\d{10}$/.test(custMobile)){showToast('Enter a valid 10-digit mobile number','error');return;}
   if(type==='dine-in'&&!table){showToast('Select a table','error');return;}
   if(type==='delivery'&&!addr.trim()){showToast('Enter delivery address','error');return;}
   const tr=document.getElementById('terms-row');
   if(tr.style.display!=='none'&&!document.getElementById('terms-agree').checked){showToast('Please agree to Terms','error');return;}
+
+  // Find or create guest customer record by mobile number
+  let custRecord=guestCustomers.find(c=>c.mobile===custMobile);
+  if(custRecord){
+    if(custRecord.name!==custName){ custRecord.name=custName; if(custRecord._id) await fbUpdate('customers',custRecord._id,{name:custName}); }
+  } else {
+    custRecord={name:custName,mobile:custMobile,createdAt:Date.now()};
+    const newId=await fbAdd('customers',custRecord);
+    if(newId) custRecord._id=newId;
+    guestCustomers.push(custRecord);
+  }
+
   const sub=cart.reduce((s,c)=>s+c.price*c.qty,0);
   const gstAmt=(settings.gstEnabled&&settings.gstPercent>0)?Math.round(sub*(settings.gstPercent/100)):0;
-  const order={id:genId(),userId:currentUser.username,userName:currentUser.name,type,table,addr,payment,note,items:cart.map(c=>({...c,served:false})),subtotal:sub,gstAmount:gstAmt,gstPercent:settings.gstPercent||0,total:sub+gstAmt,status:'pending',placedAt:Date.now()};
+  const order={id:genId(),custName,custMobile,type,table,addr,payment:'unpaid',note,items:cart.map(c=>({...c,served:false})),subtotal:sub,gstAmount:gstAmt,gstPercent:settings.gstPercent||0,total:sub+gstAmt,status:'pending',placedAt:Date.now()};
   const fbId=await fbAdd('orders',order);
   if(fbId)order._id=fbId;
   orders.unshift(order);
-  await addAudit(`Order ${order.id} by ${currentUser.name} (${type}, ${fmtC(order.total)})`);
+  await addAudit(`Order ${order.id} by ${custName} (${custMobile}) — ${type}, ${fmtC(order.total)}`,'guest');
   cart=[];updateCartBadge();closeModal('cart-modal');playBeep();
-  showToast(`✅ Order ${order.id} saved to Firebase!`);
-  if(!currentUser.isAdmin)showPage('dashboard');
+  showToast(`✅ Order ${order.id} placed successfully!`);
   renderAdminOrders();
 }
 function openTermsModal(){document.getElementById('terms-modal-content').innerHTML=(settings.terms||'No terms set.').replace(/\n/g,'<br>');document.getElementById('terms-modal').classList.add('open');}
 /* ══════════════════════════════════════════════
-   CUSTOMER DASHBOARD
+   MY ORDERS (mobile-number lookup, no login needed)
 ══════════════════════════════════════════════ */
 function renderCustDash(){
-  if(!currentUser)return;
-  document.getElementById('dash-user-name').textContent=`, ${currentUser.name}`;
-  document.getElementById('dash-subtitle').textContent=fmtT(Date.now())+' · Orders synced from Firebase';
+  document.getElementById('lookup-mobile').value='';
+  document.getElementById('my-orders-section').style.display='none';
+  document.getElementById('dash-subtitle').innerHTML='<span data-en>Enter your mobile number to view your orders</span><span data-hi>अपने ऑर्डर देखने के लिए मोबाइल नंबर डालें</span>';
+  document.body.classList.contains('lang-hi'); // no-op, keep lang spans working
   renderAds('dash-ads-grid',[3,4,5]);
   const sp=MENU.filter(i=>i.special&&menuVis[i.id]);
-  document.getElementById('dash-specials').innerHTML=sp.map(i=>`<div class="special-mini"><div class="em">${i.emoji}</div><h4>${i.name}</h4><p>${i.desc.substring(0,40)}…</p><div class="pr">${fmtC(i.price)}</div><button class="btn-gold btn-sm" style="width:100%;margin-top:8px" onclick="showPage('menu')">Order</button></div>`).join('');
-  const mine=orders.filter(o=>o.userId===currentUser.username);
+  document.getElementById('dash-specials').innerHTML=sp.map(i=>`<div class="special-mini"><div class="mini-img"><img src="${i.img||''}" alt="${i.name}" loading="lazy" onerror="this.classList.add('img-broken')"><div class="em">${i.emoji}</div></div><div class="mini-body"><h4>${i.name}</h4><p>${i.desc.substring(0,40)}…</p><div class="pr">${fmtC(i.price)}</div><button class="btn-gold btn-sm" style="width:100%;margin-top:8px" onclick="showPage('menu')">Order</button></div></div>`).join('');
+}
+function lookupMyOrders(){
+  const mobile=document.getElementById('lookup-mobile').value.trim();
+  if(!/^\d{10}$/.test(mobile)){showToast('Enter a valid 10-digit mobile number','error');return;}
+  const mine=orders.filter(o=>o.custMobile===mobile);
+  const sec=document.getElementById('my-orders-section');
+  sec.style.display='block';
+  document.getElementById('dash-subtitle').textContent=`Showing orders for ${mobile}`;
   const el=document.getElementById('customer-orders-list');
-  el.innerHTML=mine.length===0?'<p style="color:var(--text-muted);font-family:var(--font-ui);font-size:13px;padding:20px 0">No orders yet. Explore the menu!</p>':mine.map(o=>renderOCard(o,false)).join('');
+  el.innerHTML=mine.length===0?'<p style="color:var(--text-muted);font-family:var(--font-ui);font-size:13px;padding:20px 0">No orders found for this number. Place your first order from the Menu!</p>':mine.map(o=>renderOCard(o,false)).join('');
 }
 /* ══════════════════════════════════════════════
    ORDER CARD
@@ -1339,7 +1292,8 @@ function renderOCard(o,isAdmin){
       </div>
     </div>
     <div class="order-meta">
-      <span class="order-meta-item">👤 ${o.userName}</span>
+      <span class="order-meta-item">👤 ${o.custName||o.userName||'Guest'}</span>
+      <span class="order-meta-item">📱 ${o.custMobile||''}</span>
       ${o.table?`<span class="order-meta-item">🪑 Table ${o.table}</span>`:''}
       ${o.addr?`<span class="order-meta-item">📍 ${o.addr.substring(0,30)}…</span>`:''}
       <span class="order-meta-item">🕐 ${fmtT(o.placedAt)}</span>
@@ -1530,7 +1484,7 @@ async function renderAuditLog(){const rawA=await fbGetAll('audit');auditLog=rawA
 function openBill(oid){
   const o=orders.find(x=>(x._id||x.id)===oid);if(!o)return;
   const gstNo=settings.gstEnabled&&settings.gstNumber?`<p style="font-size:11px;color:var(--text-muted)">GSTIN: ${settings.gstNumber}</p>`:'';
-  document.getElementById('bill-content').innerHTML=`<div style="text-align:center;padding-bottom:20px;border-bottom:var(--border-gold);margin-bottom:20px"><div style="font-size:32px;margin-bottom:8px">🦁</div><h2 style="font-family:var(--font-display);font-size:28px;color:var(--gold)">The Lion Restaurant</h2><p style="font-size:12px;color:var(--text-muted);letter-spacing:2px">CITY CENTRE, JAMSHEDPUR · +91 9876543210</p>${gstNo}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;font-size:12px;font-family:var(--font-ui);color:var(--text-muted)"><div><strong style="color:var(--gold)">Order ID:</strong><br>${o.id}</div><div><strong style="color:var(--gold)">Date:</strong><br>${fmtT(o.placedAt)}</div><div><strong style="color:var(--gold)">Guest:</strong><br>${o.userName}</div><div><strong style="color:var(--gold)">Type:</strong><br>${o.type}${o.table?' · Table '+o.table:''}</div></div><table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px"><thead><tr style="border-bottom:var(--border-gold);color:var(--gold);font-family:var(--font-ui);font-size:10px;letter-spacing:1px"><th style="text-align:left;padding:8px 0">ITEM</th><th style="text-align:center">QTY</th><th style="text-align:right">RATE</th><th style="text-align:right">AMT</th></tr></thead><tbody>${o.items.map(i=>`<tr style="border-bottom:1px solid rgba(201,168,76,.08)"><td style="padding:8px 0;color:var(--cream)">${i.emoji} ${i.name}</td><td style="text-align:center;color:var(--text-muted)">×${i.qty}</td><td style="text-align:right;color:var(--text-muted)">${fmtC(i.price)}</td><td style="text-align:right;color:var(--gold)">${fmtC(i.price*i.qty)}</td></tr>`).join('')}</tbody></table><div style="display:flex;justify-content:space-between;padding:8px 0;font-family:var(--font-ui);font-size:13px;color:var(--text-muted)"><span>Subtotal</span><span>${fmtC(o.subtotal||o.total)}</span></div>${o.gstAmount>0?`<div style="display:flex;justify-content:space-between;padding:6px 0;font-family:var(--font-ui);font-size:12px;color:var(--text-muted)"><span>GST (${o.gstPercent}%)</span><span>${fmtC(o.gstAmount)}</span></div>`:''}<div style="display:flex;justify-content:space-between;padding:12px 0;border-top:var(--border-gold);font-family:var(--font-display);font-size:22px"><strong style="color:var(--cream)">Total</strong><strong style="color:var(--gold)">${fmtC(o.total)}</strong></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-family:var(--font-ui);font-size:12px"><span style="color:var(--text-muted)">Payment</span><span style="color:${o.payment==='paid'?'var(--green)':'#E74C3C'};font-weight:700">${o.payment.toUpperCase()}</span></div><div style="text-align:center;margin-top:24px;padding-top:16px;border-top:var(--border-gold);color:var(--text-muted);font-size:12px;font-style:italic">"Thank you for dining at The Lion Restaurant"</div>`;
+  document.getElementById('bill-content').innerHTML=`<div style="text-align:center;padding-bottom:20px;border-bottom:var(--border-gold);margin-bottom:20px"><div style="font-size:32px;margin-bottom:8px">🦁</div><h2 style="font-family:var(--font-display);font-size:28px;color:var(--gold)">The Lion Restaurant</h2><p style="font-size:12px;color:var(--text-muted);letter-spacing:2px">CITY CENTRE, JAMSHEDPUR · +91 9876543210</p>${gstNo}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;font-size:12px;font-family:var(--font-ui);color:var(--text-muted)"><div><strong style="color:var(--gold)">Order ID:</strong><br>${o.id}</div><div><strong style="color:var(--gold)">Date:</strong><br>${fmtT(o.placedAt)}</div><div><strong style="color:var(--gold)">Guest:</strong><br>${o.custName||o.userName||'Guest'} (${o.custMobile||'-'})</div><div><strong style="color:var(--gold)">Type:</strong><br>${o.type}${o.table?' · Table '+o.table:''}</div></div><table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px"><thead><tr style="border-bottom:var(--border-gold);color:var(--gold);font-family:var(--font-ui);font-size:10px;letter-spacing:1px"><th style="text-align:left;padding:8px 0">ITEM</th><th style="text-align:center">QTY</th><th style="text-align:right">RATE</th><th style="text-align:right">AMT</th></tr></thead><tbody>${o.items.map(i=>`<tr style="border-bottom:1px solid rgba(201,168,76,.08)"><td style="padding:8px 0;color:var(--cream)">${i.emoji} ${i.name}</td><td style="text-align:center;color:var(--text-muted)">×${i.qty}</td><td style="text-align:right;color:var(--text-muted)">${fmtC(i.price)}</td><td style="text-align:right;color:var(--gold)">${fmtC(i.price*i.qty)}</td></tr>`).join('')}</tbody></table><div style="display:flex;justify-content:space-between;padding:8px 0;font-family:var(--font-ui);font-size:13px;color:var(--text-muted)"><span>Subtotal</span><span>${fmtC(o.subtotal||o.total)}</span></div>${o.gstAmount>0?`<div style="display:flex;justify-content:space-between;padding:6px 0;font-family:var(--font-ui);font-size:12px;color:var(--text-muted)"><span>GST (${o.gstPercent}%)</span><span>${fmtC(o.gstAmount)}</span></div>`:''}<div style="display:flex;justify-content:space-between;padding:12px 0;border-top:var(--border-gold);font-family:var(--font-display);font-size:22px"><strong style="color:var(--cream)">Total</strong><strong style="color:var(--gold)">${fmtC(o.total)}</strong></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-family:var(--font-ui);font-size:12px"><span style="color:var(--text-muted)">Payment</span><span style="color:${o.payment==='paid'?'var(--green)':'#E74C3C'};font-weight:700">${o.payment.toUpperCase()}</span></div><div style="text-align:center;margin-top:24px;padding-top:16px;border-top:var(--border-gold);color:var(--text-muted);font-size:12px;font-style:italic">"Thank you for dining at The Lion Restaurant"</div>`;
   document.getElementById('bill-modal').classList.add('open');
 }
 function printBill(){const c=document.getElementById('bill-content').innerHTML;const w=window.open('','_blank');w.document.write(`<html><head><title>Bill - The Lion</title><style>body{font-family:Georgia,serif;padding:40px;color:#111;max-width:480px;margin:0 auto}h2{color:#8B6914}strong{color:#8B6914}table{width:100%;border-collapse:collapse}th,td{padding:8px 0;font-size:13px}th{border-bottom:1px solid #ccc}tr{border-bottom:1px solid #eee}</style></head><body>${c}</body></html>`);w.document.close();w.print();}
