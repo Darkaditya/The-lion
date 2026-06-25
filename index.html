@@ -653,6 +653,14 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
 
       <!-- LIVE ORDERS -->
       <div class="admin-panel active" id="apanel-orders">
+        <!-- Today's Summary Banner -->
+        <div id="today-summary-banner" style="background:linear-gradient(135deg,var(--dark2),var(--dark3));border:var(--border-gold);border-radius:var(--radius);padding:18px 24px;margin-bottom:24px;display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+          <div style="font-family:var(--font-display);font-size:16px;color:var(--gold);white-space:nowrap">📅 Today</div>
+          <div><span style="font-family:var(--font-ui);font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Revenue</span><br><strong style="font-family:var(--font-display);font-size:20px;color:var(--cream)" id="today-rev">₹0</strong></div>
+          <div><span style="font-family:var(--font-ui);font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Orders</span><br><strong style="font-family:var(--font-display);font-size:20px;color:var(--cream)" id="today-orders">0</strong></div>
+          <div><span style="font-family:var(--font-ui);font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Pending</span><br><strong style="font-family:var(--font-display);font-size:20px;color:#E74C3C" id="today-pending">0</strong></div>
+          <div><span style="font-family:var(--font-ui);font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Tables Occupied</span><br><strong style="font-family:var(--font-display);font-size:20px;color:var(--cream)" id="today-tables-occ">0</strong></div>
+        </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
           <h2 class="admin-panel-title" style="margin:0">🔴 Live Orders <span id="live-indicator" style="font-size:13px;color:var(--green)">(Firebase Real-time)</span></h2>
           <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);gap:12px;flex:1;min-width:360px">
@@ -662,6 +670,11 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
             <div class="stat-card" style="padding:14px"><div class="stat-card-label">Revenue</div><div class="stat-card-value" id="s-revenue" style="font-size:20px">₹0</div><div class="stat-card-icon">💰</div></div>
           </div>
         </div>
+        <!-- Table Status Grid -->
+        <div class="tbl-search-box">
+          <h3>🪑 Live Table Status <span style="font-size:11px;color:var(--text-muted);font-weight:400">(click a table to reserve/free it temporarily)</span></h3>
+          <div id="table-status-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:10px;margin-top:12px"></div>
+        </div>
         <div class="tbl-search-box">
           <h3>🪑 Table-wise Search (Today)</h3>
           <div class="tbl-search-row">
@@ -669,11 +682,6 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
               <label class="form-label">Table Number</label>
               <select class="form-input" id="table-search-select">
                 <option value="">-- Select Table --</option>
-                <option value="1">Table 1</option><option value="2">Table 2</option><option value="3">Table 3</option><option value="4">Table 4</option><option value="5">Table 5</option>
-                <option value="6">Table 6</option><option value="7">Table 7</option><option value="8">Table 8</option><option value="9">Table 9</option><option value="10">Table 10</option>
-                <option value="11">Table 11</option><option value="12">Table 12</option><option value="13">Table 13</option><option value="14">Table 14</option><option value="15">Table 15</option>
-                <option value="16">Table 16</option><option value="17">Table 17</option><option value="18">Table 18</option><option value="19">Table 19</option><option value="20">Table 20</option>
-                <option value="21">Table 21</option><option value="22">Table 22</option><option value="23">Table 23</option><option value="24">Table 24</option><option value="25">Table 25</option>
               </select>
             </div>
             <button class="btn-gold btn-sm" style="margin-bottom:18px" onclick="searchByTable()">🔍 Search</button>
@@ -695,9 +703,15 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
       <!-- REVENUE -->
       <div class="admin-panel" id="apanel-revenue">
         <h2 class="admin-panel-title">💰 Revenue & Statistics</h2>
+        <div class="filter-tabs" style="margin-bottom:20px">
+          <button class="filter-tab active" onclick="filterRevenue('today',this)">Today</button>
+          <button class="filter-tab" onclick="filterRevenue('week',this)">This Week</button>
+          <button class="filter-tab" onclick="filterRevenue('month',this)">This Month</button>
+          <button class="filter-tab" onclick="filterRevenue('all',this)">All Time</button>
+        </div>
         <div class="revenue-cards">
-          <div class="revenue-card"><h3>Total Revenue</h3><div class="value" id="rev-total">₹0</div></div>
-          <div class="revenue-card"><h3>Total Orders</h3><div class="value" id="rev-orders">0</div></div>
+          <div class="revenue-card"><h3>Revenue</h3><div class="value" id="rev-total">₹0</div></div>
+          <div class="revenue-card"><h3>Orders</h3><div class="value" id="rev-orders">0</div></div>
           <div class="revenue-card"><h3>Avg Order Value</h3><div class="value" id="rev-avg">₹0</div></div>
         </div>
         <div class="revenue-chart">
@@ -708,6 +722,15 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
             <div class="bar-wrap"><div class="bar-val" id="bar-pa-val">₹0</div><div class="bar" id="bar-pa" style="height:5%"></div><div class="bar-label">Parcel</div></div>
           </div>
         </div>
+        <div class="revenue-chart">
+          <h3>⏰ Peak Hours <span style="font-size:11px;color:var(--text-muted);font-weight:400">(orders by hour of day, selected period)</span></h3>
+          <div class="bar-chart" id="peak-hours-chart" style="height:140px;gap:3px"></div>
+        </div>
+        <div class="revenue-chart">
+          <h3>📥 Export Reports</h3>
+          <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;font-family:var(--font-ui)">Download orders for the selected period as a CSV file (opens in Excel/Sheets).</p>
+          <button class="btn-gold btn-sm" onclick="exportOrdersCSV()">📊 Export Orders CSV</button>
+        </div>
       </div>
 
       <!-- ITEM REPORT -->
@@ -715,12 +738,23 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
         <h2 class="admin-panel-title">📊 Last 35 Days — Item Report</h2>
         <p style="color:var(--text-muted);font-family:var(--font-ui);font-size:12px;margin-bottom:24px">Item-wise quantity ordered in last 35 days (Firebase data)</p>
         <div class="item-report-grid" id="item-report-grid"></div>
+
+        <h2 class="admin-panel-title" style="margin-top:36px">👥 Customer Insights</h2>
+        <div class="revenue-cards">
+          <div class="revenue-card"><h3>Unique Customers</h3><div class="value" id="cust-unique">0</div></div>
+          <div class="revenue-card"><h3>Repeat Customers</h3><div class="value" id="cust-repeat">0</div></div>
+          <div class="revenue-card"><h3>Avg Spend / Customer</h3><div class="value" id="cust-avg-spend">₹0</div></div>
+        </div>
+        <div class="revenue-chart">
+          <h3>🏆 Top Customers <span style="font-size:11px;color:var(--text-muted);font-weight:400">(by total spend, all time)</span></h3>
+          <div id="top-customers-list"></div>
+        </div>
       </div>
 
       <!-- MENU -->
       <div class="admin-panel" id="apanel-menu-mgmt">
         <h2 class="admin-panel-title">🍽 Menu Management</h2>
-        <p style="color:var(--text-muted);font-family:var(--font-ui);font-size:12px;margin-bottom:20px">Toggle ON = visible on menu · Toggle OFF = hidden (item khatam hone par off karo)</p>
+        <p style="color:var(--text-muted);font-family:var(--font-ui);font-size:12px;margin-bottom:20px">Set a stock count per item — items auto-hide at 0, and show a low-stock warning when running low. Leave stock blank/0 for unlimited.</p>
         <div class="admin-menu-grid" id="admin-menu-grid"></div>
       </div>
 
@@ -751,6 +785,17 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
       <!-- SETTINGS -->
       <div class="admin-panel" id="apanel-settings">
         <h2 class="admin-panel-title">⚙️ Owner Settings</h2>
+        <div class="settings-card">
+          <h3>🪑 Table Configuration</h3>
+          <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;font-family:var(--font-ui)">Set how many tables your restaurant has. This updates table-select dropdowns everywhere automatically.</p>
+          <div class="form-row" style="align-items:flex-end">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Total Tables</label>
+              <input type="number" class="form-input" id="table-count-input" placeholder="25" min="1" max="100">
+            </div>
+            <button class="btn-gold btn-sm" style="height:46px" onclick="saveTableCount()">💾 Update Table Count</button>
+          </div>
+        </div>
         <div class="settings-card">
           <h3>🧾 GST Configuration</h3>
           <div class="gst-row">
@@ -837,11 +882,6 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
       <label class="form-label"><span data-en>Select Table (1–25)</span><span data-hi>टेबल चुनें</span></label>
       <select class="form-input" id="table-select">
         <option value="">-- Select Table --</option>
-        <option value="1">Table 1</option><option value="2">Table 2</option><option value="3">Table 3</option><option value="4">Table 4</option><option value="5">Table 5</option>
-        <option value="6">Table 6</option><option value="7">Table 7</option><option value="8">Table 8</option><option value="9">Table 9</option><option value="10">Table 10</option>
-        <option value="11">Table 11</option><option value="12">Table 12</option><option value="13">Table 13</option><option value="14">Table 14</option><option value="15">Table 15</option>
-        <option value="16">Table 16</option><option value="17">Table 17</option><option value="18">Table 18</option><option value="19">Table 19</option><option value="20">Table 20</option>
-        <option value="21">Table 21</option><option value="22">Table 22</option><option value="23">Table 23</option><option value="24">Table 24</option><option value="25">Table 25</option>
       </select>
     </div>
     <div class="form-group" id="addr-grp" style="display:none">
@@ -1004,6 +1044,10 @@ let ADS=[
   {title:'Google Pay',   url:'https://pay.google.com',  icon:'💚',bg:'linear-gradient(135deg,#0a5c36,#1a7a4a)',tc:'white',desc:'Pay with GPay'},
 ];
 let menuVis={};MENU.forEach(i=>menuVis[i.id]=true);
+let stockCount={}; // itemId -> number (0/undefined = unlimited); shown as low-stock warning when <=3
+let TOTAL_TABLES=25;
+let tableStatus={}; // tableNumber(string) -> {status:'occupied'|'reserved', since:timestamp} — temporary, not persisted to Firebase
+let revRange='today'; // 'today'|'week'|'month'|'all' — current Revenue panel filter
 /* ══════════════════════════════════════════════
    RUNTIME STATE
 ══════════════════════════════════════════════ */
@@ -1069,7 +1113,7 @@ async function fbDel(col,id){
 async function initApp(){
   document.getElementById('init-loader').style.display='flex';
   const s=await fbGetDoc('settings','global');
-  if(s){settings=s;if(s.footerCopyright)document.getElementById('footer-copyright').textContent=s.footerCopyright;if(s.adsData)ADS=s.adsData;if(s.menuVis)menuVis=s.menuVis;}
+  if(s){settings=s;if(s.footerCopyright)document.getElementById('footer-copyright').textContent=s.footerCopyright;if(s.adsData)ADS=s.adsData;if(s.menuVis)menuVis=s.menuVis;if(s.stockCount)stockCount=s.stockCount;if(s.totalTables)TOTAL_TABLES=s.totalTables;}
   const raw=await fbGetAll('orders');
   orders=raw.sort((a,b)=>(b.placedAt||0)-(a.placedAt||0));
   autoClean();
@@ -1081,8 +1125,17 @@ async function initApp(){
   STAFF_ACCOUNTS=rawS;
   setFbStatus(true);
   renderAllAds();renderLandingSpecials();
+  populateTableSelects();
   document.getElementById('init-loader').style.display='none';
   startLiveListener();
+}
+function populateTableSelects(){
+  const opts=Array.from({length:TOTAL_TABLES},(_,i)=>i+1).map(n=>`<option value="${n}">Table ${n}</option>`).join('');
+  ['table-select','table-search-select'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML='<option value="">-- Select Table --</option>'+opts;
+  });
+  renderTableStatusGrid();
 }
 function startLiveListener(){
   if(!fbReady||unsubOrders)return;
@@ -1195,14 +1248,14 @@ function renderLandingSpecials(){const sp=MENU.filter(i=>i.special&&menuVis[i.id
 function renderMenu(){
   const cats=[...new Set(MENU.map(i=>i.cat))];
   document.getElementById('menu-cat-nav').innerHTML=`<button class="cat-btn active" onclick="scrollCat('all',this)">All</button>`+cats.map(c=>`<button class="cat-btn" onclick="scrollCat('${c}',this)">${c}</button>`).join('');
-  document.getElementById('menu-items-container').innerHTML=cats.map(cat=>`<div id="cat-${cat.replace(/\s/g,'_')}"><div class="menu-section-title">${cat}</div><div class="menu-grid">${MENU.filter(i=>i.cat===cat).map(i=>`<div class="menu-item-card ${menuVis[i.id]?'':'item-hidden'}" id="mc-${i.id}"><div class="menu-item-photo">${i.special?'<span class="special-ribbon">Special</span>':''}<img src="${i.img||''}" alt="${i.name}" loading="lazy" onerror="this.classList.add('img-broken')"><div class="photo-emoji-fallback">${i.emoji}</div></div><div class="menu-item-body"><div class="menu-item-cat">${i.cat}${i.special?' · ✨ Special':''}</div><div class="menu-item-name">${i.name}</div><p class="menu-item-desc">${i.desc}</p><div class="menu-item-footer"><div class="menu-item-price">${fmtC(i.price)}</div><button class="add-btn" onclick="addToCart(${i.id})">+</button></div></div></div>`).join('')}</div></div>`).join('');
+  document.getElementById('menu-items-container').innerHTML=cats.map(cat=>`<div id="cat-${cat.replace(/\s/g,'_')}"><div class="menu-section-title">${cat}</div><div class="menu-grid">${MENU.filter(i=>i.cat===cat).map(i=>{const stk=stockCount[i.id];const low=stk!==undefined&&stk!==null&&stk!==''&&Number(stk)>0&&Number(stk)<=3;return `<div class="menu-item-card ${menuVis[i.id]?'':'item-hidden'}" id="mc-${i.id}"><div class="menu-item-photo">${i.special?'<span class="special-ribbon">Special</span>':''}<img src="${i.img||''}" alt="${i.name}" loading="lazy" onerror="this.classList.add('img-broken')"><div class="photo-emoji-fallback">${i.emoji}</div></div><div class="menu-item-body"><div class="menu-item-cat">${i.cat}${i.special?' · ✨ Special':''}${low?' · <span style=\"color:#E74C3C\">⚠ Only '+stk+' left</span>':''}</div><div class="menu-item-name">${i.name}</div><p class="menu-item-desc">${i.desc}</p><div class="menu-item-footer"><div class="menu-item-price">${fmtC(i.price)}</div><button class="add-btn" onclick="addToCart(${i.id})">+</button></div></div></div>`;}).join('')}</div></div>`).join('');
   updateCartBadge();
 }
 function scrollCat(cat,btn){document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(cat==='all'){window.scrollTo({top:280,behavior:'smooth'});return;}const el=document.getElementById(`cat-${cat.replace(/\s/g,'_')}`);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 /* ══════════════════════════════════════════════
    CART
 ══════════════════════════════════════════════ */
-function addToCart(id){const item=MENU.find(i=>i.id===id);if(!item||!menuVis[id])return;const ex=cart.find(c=>c.id===id);if(ex)ex.qty++;else cart.push({id,name:item.name,emoji:item.emoji,price:item.price,qty:1});updateCartBadge();showToast(`${item.emoji} ${item.name} added!`);}
+function addToCart(id){const item=MENU.find(i=>i.id===id);if(!item||!menuVis[id])return;const ex=cart.find(c=>c.id===id);const stk=stockCount[id];if(stk!==undefined&&stk!==null&&stk!==''){const wantQty=(ex?ex.qty:0)+1;if(wantQty>Number(stk)){showToast(`Only ${stk} ${item.name} left in stock`,'error');return;}}if(ex)ex.qty++;else cart.push({id,name:item.name,emoji:item.emoji,price:item.price,qty:1});updateCartBadge();showToast(`${item.emoji} ${item.name} added!`);}
 function updateCartBadge(){const tot=cart.reduce((s,c)=>s+c.qty,0);const b=document.getElementById('cart-badge');if(b){b.textContent=tot;b.style.display=tot?'flex':'none';}}
 function openCartModal(){if(!cart.length){showToast('Cart is empty!','error');return;}renderCartModal();document.getElementById('cart-modal').classList.add('open');}
 function renderCartModal(){
@@ -1350,10 +1403,179 @@ function searchByTable(){
   res.innerHTML=found.length===0?`<p style="color:var(--text-muted);font-family:var(--font-ui);font-size:13px">No orders for Table ${tno} today.</p>`:`<div style="margin-bottom:12px;font-family:var(--font-ui);font-size:12px;color:var(--gold)">Table ${tno} — ${found.length} order(s) today · ${fmtC(rev)}</div>`+found.map(o=>renderOCard(o,true)).join('');
 }
 function clearTableSearch(){document.getElementById('table-search-select').value='';document.getElementById('table-search-results').style.display='none';}
-function updateStats(){const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};s('s-total',orders.length);s('s-pending',orders.filter(o=>o.status==='pending').length);s('s-complete',orders.filter(o=>o.status==='complete').length);s('s-revenue',fmtC(orders.reduce((t,o)=>t+o.total,0)));}
-function updateRevenue(){const tot=orders.reduce((s,o)=>s+o.total,0);const avg=orders.length?Math.round(tot/orders.length):0;const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};s('rev-total',fmtC(tot));s('rev-orders',orders.length);s('rev-avg',fmtC(avg));const bt={'dine-in':0,'delivery':0,'parcel':0};orders.forEach(o=>bt[o.type]=(bt[o.type]||0)+o.total);const mx=Math.max(...Object.values(bt),1);const pct=v=>Math.max(4,Math.round((v/mx)*100));s('bar-di-val',fmtC(bt['dine-in']));s('bar-dl-val',fmtC(bt['delivery']));s('bar-pa-val',fmtC(bt['parcel']));const ids=[['bar-di','dine-in'],['bar-dl','delivery'],['bar-pa','parcel']];ids.forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.style.height=pct(bt[k])+'%';});}
+function updateStats(){
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  s('s-total',orders.length);s('s-pending',orders.filter(o=>o.status==='pending').length);s('s-complete',orders.filter(o=>o.status==='complete').length);s('s-revenue',fmtC(orders.reduce((t,o)=>t+o.total,0)));
+  updateTodaySummary();
+}
+function todayStart(){const d=new Date();d.setHours(0,0,0,0);return d.getTime();}
+function updateTodaySummary(){
+  const cut=todayStart();
+  const todays=orders.filter(o=>o.placedAt>=cut);
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  s('today-rev',fmtC(todays.reduce((t,o)=>t+o.total,0)));
+  s('today-orders',todays.length);
+  s('today-pending',todays.filter(o=>o.status==='pending').length);
+  const occ=Object.values(tableStatus).filter(t=>t&&t.status).length;
+  s('today-tables-occ',`${occ}/${TOTAL_TABLES}`);
+}
+/* ── Table Status Grid (temporary, in-memory — resets on page reload) ── */
+function renderTableStatusGrid(){
+  const grid=document.getElementById('table-status-grid');
+  if(!grid)return;
+  let html='';
+  for(let n=1;n<=TOTAL_TABLES;n++){
+    const st=tableStatus[n];
+    const cls=st?.status==='occupied'?'background:rgba(231,76,60,.18);border-color:#E74C3C;color:#E74C3C':
+               st?.status==='reserved'?'background:rgba(201,168,76,.18);border-color:var(--gold);color:var(--gold)':
+               'background:var(--dark3);border-color:rgba(201,168,76,.2);color:var(--text-muted)';
+    html+=`<div onclick="cycleTableStatus(${n})" title="Click to change status" style="cursor:pointer;border:1px solid;border-radius:8px;padding:10px 4px;text-align:center;font-family:var(--font-ui);font-size:11px;font-weight:700;transition:all .2s;${cls}">${n}</div>`;
+  }
+  grid.innerHTML=html;
+  updateTodaySummary();
+}
+function cycleTableStatus(n){
+  const cur=tableStatus[n]?.status;
+  if(!cur){ tableStatus[n]={status:'occupied',since:Date.now()}; }
+  else if(cur==='occupied'){ tableStatus[n]={status:'reserved',since:Date.now()}; }
+  else { delete tableStatus[n]; }
+  renderTableStatusGrid();
+}
+async function saveTableCount(){
+  const val=parseInt(document.getElementById('table-count-input').value);
+  if(!val||val<1||val>100){showToast('Enter a number between 1 and 100','error');return;}
+  TOTAL_TABLES=val;
+  tableStatus={}; // reset temp statuses when table count changes
+  await saveSettingsFb();
+  await addAudit(`Total tables updated to ${val}`);
+  showToast(`Table count updated to ${val}!`);
+  populateTableSelects();
+}
+function getRangeOrders(range){
+  if(range==='all') return orders;
+  const now=new Date();
+  let cut;
+  if(range==='today'){ cut=todayStart(); }
+  else if(range==='week'){ const d=new Date(); d.setDate(d.getDate()-7); cut=d.getTime(); }
+  else if(range==='month'){ const d=new Date(); d.setDate(d.getDate()-30); cut=d.getTime(); }
+  else { cut=0; }
+  return orders.filter(o=>o.placedAt>=cut);
+}
+function filterRevenue(range,btn){
+  revRange=range;
+  document.querySelectorAll('#apanel-revenue .filter-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateRevenue();
+}
+function updateRevenue(){
+  const list=getRangeOrders(revRange);
+  const tot=list.reduce((s,o)=>s+o.total,0);
+  const avg=list.length?Math.round(tot/list.length):0;
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  s('rev-total',fmtC(tot));s('rev-orders',list.length);s('rev-avg',fmtC(avg));
+  const bt={'dine-in':0,'delivery':0,'parcel':0};
+  list.forEach(o=>bt[o.type]=(bt[o.type]||0)+o.total);
+  const mx=Math.max(...Object.values(bt),1);
+  const pct=v=>Math.max(4,Math.round((v/mx)*100));
+  s('bar-di-val',fmtC(bt['dine-in']));s('bar-dl-val',fmtC(bt['delivery']));s('bar-pa-val',fmtC(bt['parcel']));
+  const ids=[['bar-di','dine-in'],['bar-dl','delivery'],['bar-pa','parcel']];
+  ids.forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.style.height=pct(bt[k])+'%';});
+  renderPeakHours(list);
+  renderCustomerInsights();
+}
+function renderPeakHours(list){
+  const el=document.getElementById('peak-hours-chart');
+  if(!el)return;
+  const hourly=new Array(24).fill(0);
+  list.forEach(o=>{ const h=new Date(o.placedAt).getHours(); hourly[h]++; });
+  const mx=Math.max(...hourly,1);
+  el.innerHTML=hourly.map((c,h)=>{
+    const pct=Math.max(3,Math.round((c/mx)*100));
+    const label=h===0?'12a':h<12?h+'a':h===12?'12p':(h-12)+'p';
+    return `<div class="bar-wrap" title="${c} orders at ${label}"><div class="bar-val" style="font-size:8px">${c||''}</div><div class="bar" style="height:${pct}%"></div><div class="bar-label" style="font-size:7px">${label}</div></div>`;
+  }).join('');
+}
+function exportOrdersCSV(){
+  const list=getRangeOrders(revRange);
+  if(!list.length){showToast('No orders to export for this range','error');return;}
+  const rows=[['Order ID','Date/Time','Customer','Mobile','Type','Table','Items','Subtotal','GST','Total','Status','Payment']];
+  list.forEach(o=>{
+    rows.push([
+      o.id, new Date(o.placedAt).toLocaleString('en-IN'), o.custName||'', o.custMobile||'',
+      o.type, o.table||'', o.items.map(i=>`${i.name} x${i.qty}`).join('; '),
+      o.subtotal||o.total, o.gstAmount||0, o.total, o.status, o.payment
+    ]);
+  });
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`the-lion-orders-${revRange}-${Date.now()}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('CSV exported!');
+}
+function renderCustomerInsights(){
+  const byMobile={};
+  orders.forEach(o=>{
+    if(!o.custMobile)return;
+    if(!byMobile[o.custMobile]) byMobile[o.custMobile]={name:o.custName,count:0,spend:0};
+    byMobile[o.custMobile].count++;
+    byMobile[o.custMobile].spend+=o.total;
+  });
+  const all=Object.entries(byMobile);
+  const unique=all.length;
+  const repeat=all.filter(([,v])=>v.count>1).length;
+  const avgSpend=unique?Math.round(all.reduce((s,[,v])=>s+v.spend,0)/unique):0;
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  s('cust-unique',unique); s('cust-repeat',repeat); s('cust-avg-spend',fmtC(avgSpend));
+  const top=all.sort((a,b)=>b[1].spend-a[1].spend).slice(0,10);
+  const list=document.getElementById('top-customers-list');
+  if(list){
+    list.innerHTML=top.length===0?'<p style="color:var(--text-muted);font-family:var(--font-ui);font-size:13px">No customer data yet.</p>':top.map(([mob,v])=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(201,168,76,.08)">
+        <div><strong style="font-family:var(--font-display);color:var(--cream);font-size:15px">${v.name||'Guest'}</strong><br><span style="font-family:var(--font-ui);font-size:11px;color:var(--text-muted)">${mob} · ${v.count} order${v.count>1?'s':''}</span></div>
+        <strong style="font-family:var(--font-display);color:var(--gold);font-size:16px">${fmtC(v.spend)}</strong>
+      </div>`).join('');
+  }
+}
 function renderItemReport(){const cut=Date.now()-(35*24*60*60*1000);const qty={};orders.filter(o=>o.placedAt>cut).forEach(o=>o.items.forEach(it=>{if(!qty[it.id])qty[it.id]={name:it.name,emoji:it.emoji,qty:0};qty[it.id].qty+=it.qty;}));const sorted=Object.values(qty).sort((a,b)=>b.qty-a.qty);const grid=document.getElementById('item-report-grid');if(!grid)return;grid.innerHTML=sorted.length===0?'<p style="color:var(--text-muted);font-family:var(--font-ui);font-size:13px">No orders in last 35 days.</p>':sorted.map(i=>`<div class="item-report-card"><div class="item-report-emoji">${i.emoji}</div><div class="item-report-info"><h4>${i.name}</h4><span>Last 35 days</span></div><div class="item-report-qty">${i.qty}</div></div>`).join('');}
-function renderAdminMenuGrid(){const g=document.getElementById('admin-menu-grid');if(!g)return;g.innerHTML=MENU.map(i=>`<div class="admin-menu-card"><div class="admin-menu-emoji">${i.emoji}</div><div class="admin-menu-info"><h4>${i.name}</h4><span>${i.cat}</span><p>${fmtC(i.price)}</p></div><div class="toggle-switch ${menuVis[i.id]?'on':''}" onclick="toggleMenuItem(${i.id},this)"></div></div>`).join('');}
+function renderAdminMenuGrid(){
+  const g=document.getElementById('admin-menu-grid');if(!g)return;
+  g.innerHTML=MENU.map(i=>{
+    const stk=stockCount[i.id];
+    const hasStock=stk!==undefined&&stk!==null&&stk!=='';
+    const low=hasStock&&Number(stk)>0&&Number(stk)<=3;
+    const out=hasStock&&Number(stk)<=0;
+    return `<div class="admin-menu-card" style="flex-wrap:wrap">
+      <div class="admin-menu-emoji">${i.emoji}</div>
+      <div class="admin-menu-info">
+        <h4>${i.name} ${low?'<span style="color:#E74C3C;font-size:10px;font-family:var(--font-ui);font-weight:700">⚠ LOW STOCK</span>':''}${out?'<span style="color:#E74C3C;font-size:10px;font-family:var(--font-ui);font-weight:700">⛔ OUT OF STOCK</span>':''}</h4>
+        <span>${i.cat}</span>
+        <p>${fmtC(i.price)}</p>
+        <div style="margin-top:6px;display:flex;align-items:center;gap:6px">
+          <input type="number" class="form-input" style="padding:4px 8px;font-size:12px;width:70px" placeholder="∞" min="0" value="${hasStock?stk:''}" onchange="updateStock(${i.id},this.value)">
+          <span style="font-family:var(--font-ui);font-size:10px;color:var(--text-muted)">in stock (blank = unlimited)</span>
+        </div>
+      </div>
+      <div class="toggle-switch ${menuVis[i.id]?'on':''}" onclick="toggleMenuItem(${i.id},this)"></div>
+    </div>`;
+  }).join('');
+}
+async function updateStock(id,val){
+  const item=MENU.find(i=>i.id===id);
+  if(val===''||val===null){ delete stockCount[id]; }
+  else { stockCount[id]=Math.max(0,parseInt(val)||0); }
+  // Auto-hide when stock hits 0
+  if(stockCount[id]===0){
+    menuVis[id]=false;
+    showToast(`"${item.name}" is out of stock — auto-hidden from menu`,'error');
+  }
+  await saveSettingsFb();
+  await addAudit(`Stock for "${item.name}" set to ${stockCount[id]??'unlimited'}`);
+  renderAdminMenuGrid();
+  renderMenu();
+}
 async function toggleMenuItem(id,el){menuVis[id]=!menuVis[id];el.classList.toggle('on',menuVis[id]);const item=MENU.find(i=>i.id===id);await addAudit(`"${item.name}" ${menuVis[id]?'shown':'hidden'} on menu`);showToast(`"${item.name}" ${menuVis[id]?'visible':'hidden'}`);await saveSettingsFb();renderLandingSpecials();}
 function renderAdminAdsList(){const el=document.getElementById('admin-ads-list');if(!el)return;const labels=['Landing Ad 1','Landing Ad 2','Landing Ad 3','Dashboard Ad 1','Dashboard Ad 2','Dashboard Ad 3'];el.innerHTML=ADS.map((a,i)=>`<div style="background:var(--dark2);border:var(--border-gold);border-radius:var(--radius-sm);padding:20px;margin-bottom:16px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><strong style="font-family:var(--font-display);font-size:18px;color:var(--gold)">${labels[i]}: ${a.title}</strong><button class="btn-outline btn-sm" onclick="openAdEdit(${i})">✏ Edit</button></div><div style="background:${a.bg};color:${a.tc||'white'};height:60px;border-radius:6px;display:flex;align-items:center;padding:0 16px;gap:12px;font-family:var(--font-ui)"><span style="font-size:24px">${a.icon}</span><div><strong style="font-size:13px">${a.title}</strong><br><span style="font-size:11px;opacity:.8">${a.desc}</span></div></div><div style="margin-top:8px;font-family:var(--font-ui);font-size:11px;color:var(--text-muted)">🔗 <a href="${a.url}" target="_blank" style="color:var(--gold)">${a.url}</a></div></div>`).join('');}
 function openAdEdit(idx){const a=ADS[idx];document.getElementById('edit-ad-idx').value=idx;document.getElementById('edit-ad-title').value=a.title;document.getElementById('edit-ad-url').value=a.url;document.getElementById('edit-ad-desc').value=a.desc;document.getElementById('edit-ad-icon').value=a.icon;document.getElementById('edit-ad-bg').value=a.bg;document.getElementById('edit-ad-tc').value=a.tc||'white';document.getElementById('ad-edit-modal').classList.add('open');}
@@ -1471,8 +1693,8 @@ async function confirmDeleteStaff(){
   staffToDelete=null;
   renderStaffGrid();
 }
-function loadSettingsUI(){const gOn=settings.gstEnabled||false;const tog=document.getElementById('gst-toggle'),lbl=document.getElementById('gst-status-label'),fields=document.getElementById('gst-fields');if(tog)tog.classList.toggle('on',gOn);if(lbl)lbl.textContent=gOn?'ON':'OFF';if(fields)fields.style.display=gOn?'block':'none';const gn=document.getElementById('gst-number'),gp=document.getElementById('gst-percent');if(gn)gn.value=settings.gstNumber||'';if(gp)gp.value=settings.gstPercent||5;const fc=document.getElementById('footer-copyright-input');if(fc)fc.value=settings.footerCopyright||'© 2024 The Lion Restaurant. All Rights Reserved.';const tc=document.getElementById('terms-content');if(tc)tc.value=settings.terms||'1. All orders once placed are final.\n2. Management reserves right to refuse service.';}
-async function saveSettingsFb(){settings.adsData=ADS;settings.menuVis=menuVis;await fbSave('settings','global',settings);}
+function loadSettingsUI(){const gOn=settings.gstEnabled||false;const tog=document.getElementById('gst-toggle'),lbl=document.getElementById('gst-status-label'),fields=document.getElementById('gst-fields');if(tog)tog.classList.toggle('on',gOn);if(lbl)lbl.textContent=gOn?'ON':'OFF';if(fields)fields.style.display=gOn?'block':'none';const gn=document.getElementById('gst-number'),gp=document.getElementById('gst-percent');if(gn)gn.value=settings.gstNumber||'';if(gp)gp.value=settings.gstPercent||5;const fc=document.getElementById('footer-copyright-input');if(fc)fc.value=settings.footerCopyright||'© 2024 The Lion Restaurant. All Rights Reserved.';const tc=document.getElementById('terms-content');if(tc)tc.value=settings.terms||'1. All orders once placed are final.\n2. Management reserves right to refuse service.';const tci=document.getElementById('table-count-input');if(tci)tci.value=TOTAL_TABLES;}
+async function saveSettingsFb(){settings.adsData=ADS;settings.menuVis=menuVis;settings.stockCount=stockCount;settings.totalTables=TOTAL_TABLES;await fbSave('settings','global',settings);}
 async function toggleGST(){settings.gstEnabled=!settings.gstEnabled;await saveSettingsFb();loadSettingsUI();addAudit(`GST ${settings.gstEnabled?'enabled':'disabled'}`);showToast(`GST ${settings.gstEnabled?'enabled':'disabled'}`);}
 async function saveGST(){settings.gstNumber=document.getElementById('gst-number').value.trim();settings.gstPercent=parseFloat(document.getElementById('gst-percent').value)||5;await saveSettingsFb();addAudit(`GST: ${settings.gstPercent}%, No: ${settings.gstNumber}`);showToast('GST saved to Firebase!');}
 async function saveFooter(){settings.footerCopyright=document.getElementById('footer-copyright-input').value;await saveSettingsFb();document.getElementById('footer-copyright').textContent=settings.footerCopyright;addAudit('Footer copyright updated');showToast('Footer updated!');}
@@ -1492,7 +1714,7 @@ function printBill(){const c=document.getElementById('bill-content').innerHTML;c
    ADMIN PANEL SWITCH & SIDEBAR
 ══════════════════════════════════════════════ */
 function setupAdminSidebar(){if(!currentUser||!currentUser.isAdmin)return;document.getElementById('admin-role-display').textContent=currentUser.role;const map={'ads-mgmt':'ads','accounts':'accounts','settings':'settings'};Object.entries(map).forEach(([nav,perm])=>{const el=document.getElementById(`anav-${nav}`);if(el)el.style.display=hasPerm(perm)?'flex':'none';});}
-function switchPanel(p){document.querySelectorAll('.admin-panel').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.admin-nav-item').forEach(x=>x.classList.remove('active'));const panel=document.getElementById(`apanel-${p}`),nav=document.getElementById(`anav-${p}`);if(panel)panel.classList.add('active');if(nav)nav.classList.add('active');if(p==='orders')renderAdminOrders();if(p==='revenue')updateRevenue();if(p==='report')renderItemReport();if(p==='menu-mgmt')renderAdminMenuGrid();if(p==='ads-mgmt')renderAdminAdsList();if(p==='accounts')renderAdminAccounts();if(p==='settings')loadSettingsUI();if(p==='audit')renderAuditLog();}
+function switchPanel(p){document.querySelectorAll('.admin-panel').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.admin-nav-item').forEach(x=>x.classList.remove('active'));const panel=document.getElementById(`apanel-${p}`),nav=document.getElementById(`anav-${p}`);if(panel)panel.classList.add('active');if(nav)nav.classList.add('active');if(p==='orders'){renderAdminOrders();renderTableStatusGrid();}if(p==='revenue')updateRevenue();if(p==='report'){renderItemReport();renderCustomerInsights();}if(p==='menu-mgmt')renderAdminMenuGrid();if(p==='ads-mgmt')renderAdminAdsList();if(p==='accounts')renderAdminAccounts();if(p==='settings')loadSettingsUI();if(p==='audit')renderAuditLog();}
 /* ══════════════════════════════════════════════
    GLOBAL EVENTS
 ══════════════════════════════════════════════ */
