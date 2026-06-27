@@ -479,9 +479,9 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
   <section id="landing-hero">
     <div class="hero-bg"></div><div class="hero-pattern"></div>
     <div class="hero-content">
-      <div class="hero-badge">✦ <span data-en>Premium Dining Since 2010</span><span data-hi>2010 से प्रीमियम डाइनिंग</span> ✦</div>
-      <h1 class="hero-title">The Lion</h1>
-      <p class="hero-subtitle"><span data-en>Where Every Meal Is a Royal Experience</span><span data-hi>जहाँ हर भोजन एक शाही अनुभव है</span></p>
+      <div class="hero-badge" id="lp-out-hero-badge">✦ <span data-en>Premium Dining Since 2010</span><span data-hi>2010 से प्रीमियम डाइनिंग</span> ✦</div>
+      <h1 class="hero-title" id="lp-out-hero-title">The Lion</h1>
+      <p class="hero-subtitle" id="lp-out-hero-subtitle"><span data-en>Where Every Meal Is a Royal Experience</span><span data-hi>जहाँ हर भोजन एक शाही अनुभव है</span></p>
       <div class="hero-actions">
         <button class="btn-gold" onclick="showPage('menu')">🍽 <span data-en>View Menu</span><span data-hi>मेनू देखें</span></button>
         <button class="btn-outline" onclick="showPage('menu')">🦁 <span data-en>Reserve Table</span><span data-hi>टेबल बुक करें</span></button>
@@ -507,16 +507,16 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
       <div class="about-grid">
         <div>
           <div class="ornament" style="margin-bottom:20px;justify-content:flex-start"><span data-en>Our Story</span><span data-hi>हमारी कहानी</span></div>
-          <h2 class="section-title" style="text-align:left"><span data-en>15 Years of <span>Lion</span> Excellence</span><span data-hi>15 साल की <span>लायन</span> श्रेष्ठता</span></h2>
-          <p style="color:var(--text-muted);font-size:16px;line-height:1.9;margin-bottom:28px">
+          <h2 class="section-title" style="text-align:left" id="lp-out-about-heading"><span data-en>15 Years of <span>Lion</span> Excellence</span><span data-hi>15 साल की <span>लायन</span> श्रेष्ठता</span></h2>
+          <p style="color:var(--text-muted);font-size:16px;line-height:1.9;margin-bottom:28px" id="lp-out-about-text">
             <span data-en>Since 2010, The Lion Restaurant has been the roaring heart of premium dining. Bold flavors, royal ambiance, and unforgettable experiences — every single visit.</span>
             <span data-hi>2010 से, The Lion प्रीमियम डाइनिंग का दिल रहा है।</span>
           </p>
           <div class="about-stats">
-            <div class="stat-box"><div class="stat-num">15+</div><div class="stat-label"><span data-en>Years</span><span data-hi>साल</span></div></div>
-            <div class="stat-box"><div class="stat-num">100K+</div><div class="stat-label"><span data-en>Guests</span><span data-hi>मेहमान</span></div></div>
-            <div class="stat-box"><div class="stat-num">60+</div><div class="stat-label"><span data-en>Menu Items</span><span data-hi>व्यंजन</span></div></div>
-            <div class="stat-box"><div class="stat-num">25</div><div class="stat-label"><span data-en>Tables</span><span data-hi>टेबल</span></div></div>
+            <div class="stat-box"><div class="stat-num" id="lp-out-stat1-num">15+</div><div class="stat-label" id="lp-out-stat1-label">Years</div></div>
+            <div class="stat-box"><div class="stat-num" id="lp-out-stat2-num">100K+</div><div class="stat-label" id="lp-out-stat2-label">Guests</div></div>
+            <div class="stat-box"><div class="stat-num" id="lp-out-stat3-num">60+</div><div class="stat-label" id="lp-out-stat3-label">Menu Items</div></div>
+            <div class="stat-box"><div class="stat-num" id="lp-out-stat4-num">25</div><div class="stat-label" id="lp-out-stat4-label">Tables</div></div>
           </div>
         </div>
         <div style="display:flex;align-items:center;justify-content:center"><div class="about-emblem">🦁</div></div>
@@ -538,7 +538,7 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
     <div class="footer-grid">
       <div>
         <div class="footer-logo">🦁 The Lion</div>
-        <p class="footer-desc"><span data-en>Premium dining in the heart of the city. Bold flavors, royal ambiance, unforgettable moments.</span><span data-hi>शहर के दिल में प्रीमियम डाइनिंग।</span></p>
+        <p class="footer-desc" id="lp-out-footer-desc"><span data-en>Premium dining in the heart of the city. Bold flavors, royal ambiance, unforgettable moments.</span><span data-hi>शहर के दिल में प्रीमियम डाइनिंग।</span></p>
       </div>
       <div>
         <div class="footer-heading"><span data-en>Navigate</span><span data-hi>नेविगेट</span></div>
@@ -551,16 +551,16 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
       <div>
         <div class="footer-heading">Contact</div>
         <ul class="footer-links">
-          <li><span>📍 City Centre, Jamshedpur</span></li>
-          <li><span>📞 +91 9876543210</span></li>
-          <li><span>✉️ info@thelion.in</span></li>
+          <li><span id="lp-out-address">📍 City Centre, Jamshedpur</span></li>
+          <li><span id="lp-out-phone">📞 +91 9876543210</span></li>
+          <li><span id="lp-out-email">✉️ info@thelion.in</span></li>
         </ul>
       </div>
       <div>
         <div class="footer-heading">Hours</div>
         <ul class="footer-links">
-          <li><span>Mon–Fri: 11am–11pm</span></li>
-          <li><span>Sat–Sun: 10am–12am</span></li>
+          <li><span id="lp-out-hours1">Mon–Fri: 11am–11pm</span></li>
+          <li><span id="lp-out-hours2">Sat–Sun: 10am–12am</span></li>
         </ul>
       </div>
     </div>
@@ -753,8 +753,11 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
 
       <!-- MENU -->
       <div class="admin-panel" id="apanel-menu-mgmt">
-        <h2 class="admin-panel-title">🍽 Menu Management</h2>
-        <p style="color:var(--text-muted);font-family:var(--font-ui);font-size:12px;margin-bottom:20px">Set a stock count per item — items auto-hide at 0, and show a low-stock warning when running low. Leave stock blank/0 for unlimited.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px">
+          <h2 class="admin-panel-title" style="margin:0">🍽 Menu Management</h2>
+          <button class="btn-gold btn-sm" onclick="openMenuItemModal()">➕ Add New Item</button>
+        </div>
+        <p style="color:var(--text-muted);font-family:var(--font-ui);font-size:12px;margin-bottom:20px">Set stock count to control availability · Edit/Delete any item · Toggle visibility on/off.</p>
         <div class="admin-menu-grid" id="admin-menu-grid"></div>
       </div>
 
@@ -785,6 +788,52 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
       <!-- SETTINGS -->
       <div class="admin-panel" id="apanel-settings">
         <h2 class="admin-panel-title">⚙️ Owner Settings</h2>
+
+        <!-- LANDING PAGE CONTENT EDITOR -->
+        <div class="settings-card">
+          <h3>🏠 Landing Page Content</h3>
+          <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;font-family:var(--font-ui)">Edit the text shown on your public landing page. Changes save to Firebase and apply instantly for all visitors.</p>
+
+          <label class="form-label" style="color:var(--text-light);margin-top:8px">— Hero Section —</label>
+          <div class="form-group"><label class="form-label">Badge Text (small pill above title)</label><input type="text" class="form-input" id="lp-hero-badge" placeholder="Premium Dining Since 2010"></div>
+          <div class="form-group"><label class="form-label">Hero Title</label><input type="text" class="form-input" id="lp-hero-title" placeholder="The Lion"></div>
+          <div class="form-group"><label class="form-label">Hero Subtitle</label><input type="text" class="form-input" id="lp-hero-subtitle" placeholder="Where Every Meal Is a Royal Experience"></div>
+
+          <label class="form-label" style="color:var(--text-light);margin-top:18px">— About / Our Story Section —</label>
+          <div class="form-group"><label class="form-label">About Heading</label><input type="text" class="form-input" id="lp-about-heading" placeholder="15 Years of Lion Excellence"></div>
+          <div class="form-group"><label class="form-label">About Paragraph</label><textarea class="form-input" id="lp-about-text" rows="3" placeholder="Since 2010, The Lion Restaurant has been..."></textarea></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Stat 1 (e.g. 15+)</label><input type="text" class="form-input" id="lp-stat1-num" placeholder="15+"></div>
+            <div class="form-group"><label class="form-label">Stat 1 Label</label><input type="text" class="form-input" id="lp-stat1-label" placeholder="Years"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Stat 2 (e.g. 100K+)</label><input type="text" class="form-input" id="lp-stat2-num" placeholder="100K+"></div>
+            <div class="form-group"><label class="form-label">Stat 2 Label</label><input type="text" class="form-input" id="lp-stat2-label" placeholder="Guests"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Stat 3 (e.g. 60+)</label><input type="text" class="form-input" id="lp-stat3-num" placeholder="60+"></div>
+            <div class="form-group"><label class="form-label">Stat 3 Label</label><input type="text" class="form-input" id="lp-stat3-label" placeholder="Menu Items"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Stat 4 (e.g. 25)</label><input type="text" class="form-input" id="lp-stat4-num" placeholder="25"></div>
+            <div class="form-group"><label class="form-label">Stat 4 Label</label><input type="text" class="form-input" id="lp-stat4-label" placeholder="Tables"></div>
+          </div>
+
+          <label class="form-label" style="color:var(--text-light);margin-top:18px">— Contact & Hours (Footer) —</label>
+          <div class="form-group"><label class="form-label">Address</label><input type="text" class="form-input" id="lp-address" placeholder="City Centre, Jamshedpur"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Phone Number</label><input type="text" class="form-input" id="lp-phone" placeholder="+91 9876543210"></div>
+            <div class="form-group"><label class="form-label">Email</label><input type="text" class="form-input" id="lp-email" placeholder="info@thelion.in"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Hours Line 1</label><input type="text" class="form-input" id="lp-hours1" placeholder="Mon–Fri: 11am–11pm"></div>
+            <div class="form-group"><label class="form-label">Hours Line 2</label><input type="text" class="form-input" id="lp-hours2" placeholder="Sat–Sun: 10am–12am"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Footer Description</label><textarea class="form-input" id="lp-footer-desc" rows="2" placeholder="Premium dining in the heart of the city."></textarea></div>
+
+          <button class="btn-gold" style="margin-top:8px" onclick="saveLandingContent()">💾 Save Landing Page Content</button>
+        </div>
+
         <div class="settings-card">
           <h3>🪑 Table Configuration</h3>
           <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;font-family:var(--font-ui)">Set how many tables your restaurant has. This updates table-select dropdowns everywhere automatically.</p>
@@ -957,6 +1006,52 @@ body.lang-en [data-hi]{display:none}body.lang-hi [data-en]{display:none}
   </div>
 </div>
 
+<!-- MENU ITEM ADD/EDIT MODAL -->
+<div class="modal-overlay" id="menu-item-modal">
+  <div class="modal-box" style="max-width:520px">
+    <h2 class="modal-title" id="menu-item-modal-title">➕ Add Menu Item</h2>
+    <p class="modal-subtitle">Fill in the dish details. Saves to Firebase instantly.</p>
+    <input type="hidden" id="mi-edit-id">
+    <div class="form-group"><label class="form-label">Dish Name</label><input type="text" class="form-input" id="mi-name" placeholder="e.g. Chicken Tikka Masala"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Category</label><input type="text" class="form-input" id="mi-cat" placeholder="e.g. Curries, Biryani, Thali..." list="mi-cat-list"><datalist id="mi-cat-list"></datalist></div>
+      <div class="form-group"><label class="form-label">Price (₹)</label><input type="number" class="form-input" id="mi-price" placeholder="380" min="0"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="mi-desc" rows="2" placeholder="Short, appetizing description..."></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Emoji (fallback if image fails)</label><input type="text" class="form-input" id="mi-emoji" placeholder="🍛"></div>
+      <div class="form-group" style="display:flex;align-items:center;gap:12px;margin-top:22px">
+        <div class="toggle-switch" id="mi-special-toggle" onclick="this.classList.toggle('on')"></div>
+        <span style="font-family:var(--font-ui);font-size:13px;color:var(--cream)">Mark as Chef's Special</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Image URL (paste a direct image link)</label>
+      <input type="text" class="form-input" id="mi-img" placeholder="https://images.unsplash.com/photo-..." oninput="updateMiImgPreview()">
+    </div>
+    <div id="mi-img-preview-wrap" style="display:none;margin-bottom:18px">
+      <img id="mi-img-preview" src="" alt="Preview" style="width:100%;height:140px;object-fit:cover;border-radius:8px;border:var(--border-gold)" onerror="this.style.display='none'" onload="this.style.display='block'">
+    </div>
+    <div style="display:flex;gap:12px;margin-top:8px">
+      <button class="btn-gold" style="flex:1" onclick="saveMenuItem()">💾 Save Item to Firebase</button>
+      <button class="btn-outline" onclick="closeModal('menu-item-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MENU ITEM CONFIRM -->
+<div class="modal-overlay" id="del-menu-item-modal">
+  <div class="modal-box" style="max-width:400px">
+    <h2 class="modal-title">⚠️ Delete Menu Item</h2>
+    <p class="modal-subtitle">This will permanently remove the item from your menu.</p>
+    <p style="color:var(--cream);margin-bottom:24px;font-family:var(--font-ui);font-size:13px">Item: <strong id="del-menu-item-name-lbl" style="color:var(--gold)"></strong></p>
+    <div style="display:flex;gap:12px">
+      <button class="btn-danger" style="flex:1;padding:12px!important;font-size:12px!important" onclick="confirmDeleteMenuItem()">🗑 Delete Item</button>
+      <button class="btn-outline" onclick="closeModal('del-menu-item-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- STAFF CREATE/EDIT MODAL -->
 <div class="modal-overlay" id="staff-modal">
   <div class="modal-box" style="max-width:480px">
@@ -1018,7 +1113,7 @@ const ALL_PERMS = ['orders','revenue','report','menu','audit'];
 const PERM_LABELS = {orders:'Live Orders', revenue:'Revenue', report:'Item Report', menu:'Menu Management', audit:'Audit Log'};
 // Dynamic staff accounts — created by Owner, stored in Firebase 'staff' collection
 let STAFF_ACCOUNTS = [];
-const MENU=[
+let MENU=[
   {id:1, name:'Dum Biryani Special',   emoji:'🍚',cat:'Biryani',  price:380,desc:'Slow-cooked basmati with saffron & royal spices',           special:true, img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&h=400&fit=crop&q=80'},
   {id:2, name:'Galouti Kebab',         emoji:'🥩',cat:'Kebabs',   price:320,desc:'Melt-in-mouth kebabs, 100+ spices, legendary recipe',        special:true, img:'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&h=400&fit=crop&q=80'},
   {id:3, name:'Shahi Paneer',          emoji:'🧀',cat:'Curries',  price:280,desc:'Cottage cheese in rich cream & tomato Mughlai gravy',        special:false, img:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=500&h=400&fit=crop&q=80'},
@@ -1113,7 +1208,7 @@ async function fbDel(col,id){
 async function initApp(){
   document.getElementById('init-loader').style.display='flex';
   const s=await fbGetDoc('settings','global');
-  if(s){settings=s;if(s.footerCopyright)document.getElementById('footer-copyright').textContent=s.footerCopyright;if(s.adsData)ADS=s.adsData;if(s.menuVis)menuVis=s.menuVis;if(s.stockCount)stockCount=s.stockCount;if(s.totalTables)TOTAL_TABLES=s.totalTables;}
+  if(s){settings=s;if(s.footerCopyright)document.getElementById('footer-copyright').textContent=s.footerCopyright;if(s.adsData)ADS=s.adsData;if(s.menuVis)menuVis=s.menuVis;if(s.stockCount)stockCount=s.stockCount;if(s.totalTables)TOTAL_TABLES=s.totalTables;if(s.menuData&&Array.isArray(s.menuData)&&s.menuData.length){MENU=s.menuData;}}
   const raw=await fbGetAll('orders');
   orders=raw.sort((a,b)=>(b.placedAt||0)-(a.placedAt||0));
   autoClean();
@@ -1124,7 +1219,7 @@ async function initApp(){
   const rawS=await fbGetAll('staff');
   STAFF_ACCOUNTS=rawS;
   setFbStatus(true);
-  renderAllAds();renderLandingSpecials();
+  renderAllAds();renderLandingSpecials();applyLandingContent();
   populateTableSelects();
   document.getElementById('init-loader').style.display='none';
   startLiveListener();
@@ -1451,6 +1546,42 @@ async function saveTableCount(){
   showToast(`Table count updated to ${val}!`);
   populateTableSelects();
 }
+/* ── Landing Page Content Editor ── */
+const LP_FIELDS=['hero-badge','hero-title','hero-subtitle','about-heading','about-text','stat1-num','stat1-label','stat2-num','stat2-label','stat3-num','stat3-label','stat4-num','stat4-label','address','phone','email','hours1','hours2','footer-desc'];
+function loadLandingContentForm(){
+  const lp=settings.landing||{};
+  LP_FIELDS.forEach(f=>{ const el=document.getElementById('lp-'+f); if(el) el.value=lp[f]||''; });
+}
+async function saveLandingContent(){
+  const lp={};
+  LP_FIELDS.forEach(f=>{ const el=document.getElementById('lp-'+f); lp[f]=el?el.value.trim():''; });
+  settings.landing=lp;
+  await saveSettingsFb();
+  await addAudit('Landing page content updated by '+currentUser.name);
+  showToast('✅ Landing page updated!');
+  applyLandingContent();
+}
+function applyLandingContent(){
+  const lp=settings.landing;
+  if(!lp)return;
+  const setText=(id,val)=>{ const el=document.getElementById(id); if(el&&val) el.textContent=val; };
+  const setHTML=(id,val)=>{ const el=document.getElementById(id); if(el&&val) el.innerHTML=val; };
+  if(lp['hero-badge']) setHTML('lp-out-hero-badge','✦ '+lp['hero-badge']+' ✦');
+  setText('lp-out-hero-title',lp['hero-title']);
+  if(lp['hero-subtitle']) setHTML('lp-out-hero-subtitle',lp['hero-subtitle']);
+  if(lp['about-heading']) setHTML('lp-out-about-heading',lp['about-heading']);
+  if(lp['about-text']) setHTML('lp-out-about-text',lp['about-text']);
+  setText('lp-out-stat1-num',lp['stat1-num']); setText('lp-out-stat1-label',lp['stat1-label']);
+  setText('lp-out-stat2-num',lp['stat2-num']); setText('lp-out-stat2-label',lp['stat2-label']);
+  setText('lp-out-stat3-num',lp['stat3-num']); setText('lp-out-stat3-label',lp['stat3-label']);
+  setText('lp-out-stat4-num',lp['stat4-num']); setText('lp-out-stat4-label',lp['stat4-label']);
+  if(lp['address']) setText('lp-out-address','📍 '+lp['address']);
+  if(lp['phone']) setText('lp-out-phone','📞 '+lp['phone']);
+  if(lp['email']) setText('lp-out-email','✉️ '+lp['email']);
+  setText('lp-out-hours1',lp['hours1']);
+  setText('lp-out-hours2',lp['hours2']);
+  if(lp['footer-desc']) setHTML('lp-out-footer-desc',lp['footer-desc']);
+}
 function getRangeOrders(range){
   if(range==='all') return orders;
   const now=new Date();
@@ -1557,6 +1688,10 @@ function renderAdminMenuGrid(){
           <input type="number" class="form-input" style="padding:4px 8px;font-size:12px;width:70px" placeholder="∞" min="0" value="${hasStock?stk:''}" onchange="updateStock(${i.id},this.value)">
           <span style="font-family:var(--font-ui);font-size:10px;color:var(--text-muted)">in stock (blank = unlimited)</span>
         </div>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <button class="btn-outline btn-sm" onclick="openMenuItemModal(${i.id})">✏ Edit</button>
+          <button class="btn-danger btn-sm" onclick="askDeleteMenuItem(${i.id})">🗑 Delete</button>
+        </div>
       </div>
       <div class="toggle-switch ${menuVis[i.id]?'on':''}" onclick="toggleMenuItem(${i.id},this)"></div>
     </div>`;
@@ -1577,13 +1712,102 @@ async function updateStock(id,val){
   renderMenu();
 }
 async function toggleMenuItem(id,el){menuVis[id]=!menuVis[id];el.classList.toggle('on',menuVis[id]);const item=MENU.find(i=>i.id===id);await addAudit(`"${item.name}" ${menuVis[id]?'shown':'hidden'} on menu`);showToast(`"${item.name}" ${menuVis[id]?'visible':'hidden'}`);await saveSettingsFb();renderLandingSpecials();}
+
+/* ── Menu Item CRUD (Add / Edit / Delete with image URL) ── */
+let editingMenuItemId=null;
+let deleteMenuItemId=null;
+
+function openMenuItemModal(id){
+  editingMenuItemId=id||null;
+  const existing=id?MENU.find(i=>i.id===id):null;
+
+  document.getElementById('menu-item-modal-title').textContent=existing?'✏ Edit Menu Item':'➕ Add Menu Item';
+  document.getElementById('mi-edit-id').value=id||'';
+  document.getElementById('mi-name').value=existing?existing.name:'';
+  document.getElementById('mi-cat').value=existing?existing.cat:'';
+  document.getElementById('mi-price').value=existing?existing.price:'';
+  document.getElementById('mi-desc').value=existing?existing.desc:'';
+  document.getElementById('mi-emoji').value=existing?existing.emoji:'🍽';
+  document.getElementById('mi-img').value=existing?(existing.img||''):'';
+  document.getElementById('mi-special-toggle').classList.toggle('on',existing?!!existing.special:false);
+
+  // Populate category suggestions from existing menu
+  const cats=[...new Set(MENU.map(i=>i.cat))];
+  document.getElementById('mi-cat-list').innerHTML=cats.map(c=>`<option value="${c}">`).join('');
+
+  updateMiImgPreview();
+  document.getElementById('menu-item-modal').classList.add('open');
+}
+function updateMiImgPreview(){
+  const url=document.getElementById('mi-img').value.trim();
+  const wrap=document.getElementById('mi-img-preview-wrap');
+  const img=document.getElementById('mi-img-preview');
+  if(url){ wrap.style.display='block'; img.src=url; }
+  else { wrap.style.display='none'; img.src=''; }
+}
+async function saveMenuItem(){
+  const name=document.getElementById('mi-name').value.trim();
+  const cat=document.getElementById('mi-cat').value.trim();
+  const price=parseFloat(document.getElementById('mi-price').value);
+  const desc=document.getElementById('mi-desc').value.trim();
+  const emoji=document.getElementById('mi-emoji').value.trim()||'🍽';
+  const img=document.getElementById('mi-img').value.trim();
+  const special=document.getElementById('mi-special-toggle').classList.contains('on');
+
+  if(!name){showToast('Enter a dish name','error');return;}
+  if(!cat){showToast('Enter a category','error');return;}
+  if(!price||price<=0){showToast('Enter a valid price','error');return;}
+
+  if(editingMenuItemId){
+    const item=MENU.find(i=>i.id===editingMenuItemId);
+    if(item){ Object.assign(item,{name,cat,price,desc,emoji,img,special}); }
+    await addAudit(`Menu item "${name}" updated by ${currentUser.name}`);
+    showToast('✅ Item updated!');
+  } else {
+    const newId=Math.max(0,...MENU.map(i=>i.id))+1;
+    MENU.push({id:newId,name,cat,price,desc,emoji,img,special});
+    menuVis[newId]=true;
+    await addAudit(`New menu item "${name}" added by ${currentUser.name}`);
+    showToast('✅ New item added to menu!');
+  }
+  await saveSettingsFb();
+  closeModal('menu-item-modal');
+  renderAdminMenuGrid();
+  renderMenu();
+  renderLandingSpecials();
+}
+function askDeleteMenuItem(id){
+  const item=MENU.find(i=>i.id===id);
+  if(!item)return;
+  deleteMenuItemId=id;
+  document.getElementById('del-menu-item-name-lbl').textContent=item.name;
+  document.getElementById('del-menu-item-modal').classList.add('open');
+}
+async function confirmDeleteMenuItem(){
+  if(!deleteMenuItemId)return;
+  const item=MENU.find(i=>i.id===deleteMenuItemId);
+  MENU=MENU.filter(i=>i.id!==deleteMenuItemId);
+  delete menuVis[deleteMenuItemId];
+  delete stockCount[deleteMenuItemId];
+  await addAudit(`Menu item "${item?.name||deleteMenuItemId}" deleted by ${currentUser.name}`);
+  await saveSettingsFb();
+  showToast('Item deleted from menu','info');
+  closeModal('del-menu-item-modal');
+  deleteMenuItemId=null;
+  renderAdminMenuGrid();
+  renderMenu();
+  renderLandingSpecials();
+}
+
 function renderAdminAdsList(){const el=document.getElementById('admin-ads-list');if(!el)return;const labels=['Landing Ad 1','Landing Ad 2','Landing Ad 3','Dashboard Ad 1','Dashboard Ad 2','Dashboard Ad 3'];el.innerHTML=ADS.map((a,i)=>`<div style="background:var(--dark2);border:var(--border-gold);border-radius:var(--radius-sm);padding:20px;margin-bottom:16px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><strong style="font-family:var(--font-display);font-size:18px;color:var(--gold)">${labels[i]}: ${a.title}</strong><button class="btn-outline btn-sm" onclick="openAdEdit(${i})">✏ Edit</button></div><div style="background:${a.bg};color:${a.tc||'white'};height:60px;border-radius:6px;display:flex;align-items:center;padding:0 16px;gap:12px;font-family:var(--font-ui)"><span style="font-size:24px">${a.icon}</span><div><strong style="font-size:13px">${a.title}</strong><br><span style="font-size:11px;opacity:.8">${a.desc}</span></div></div><div style="margin-top:8px;font-family:var(--font-ui);font-size:11px;color:var(--text-muted)">🔗 <a href="${a.url}" target="_blank" style="color:var(--gold)">${a.url}</a></div></div>`).join('');}
 function openAdEdit(idx){const a=ADS[idx];document.getElementById('edit-ad-idx').value=idx;document.getElementById('edit-ad-title').value=a.title;document.getElementById('edit-ad-url').value=a.url;document.getElementById('edit-ad-desc').value=a.desc;document.getElementById('edit-ad-icon').value=a.icon;document.getElementById('edit-ad-bg').value=a.bg;document.getElementById('edit-ad-tc').value=a.tc||'white';document.getElementById('ad-edit-modal').classList.add('open');}
 async function saveAdEdit(){const idx=parseInt(document.getElementById('edit-ad-idx').value);ADS[idx]={title:document.getElementById('edit-ad-title').value,url:document.getElementById('edit-ad-url').value,desc:document.getElementById('edit-ad-desc').value,icon:document.getElementById('edit-ad-icon').value,bg:document.getElementById('edit-ad-bg').value,tc:document.getElementById('edit-ad-tc').value};closeModal('ad-edit-modal');await addAudit(`Ad Slot ${idx+1} updated: "${ADS[idx].title}"`);showToast('Ad saved to Firebase!');await saveSettingsFb();renderAllAds();renderAdminAdsList();}
 const PL={orders:'Live Orders',revenue:'Revenue',report:'Item Report',menu:'Menu',ads:'Ads',accounts:'Accounts',settings:'Settings',audit:'Audit'};
 function renderAdminAccounts(){
   const g=document.getElementById('admin-accounts-grid');
-  if(g) g.innerHTML=ADMINS.map(a=>`<div class="account-card"><div class="account-role role-${a.role.toLowerCase().replace(' ','')}">${a.role}</div><div class="account-name">${a.emoji} ${a.name}</div><div class="account-username">@${a.username}</div><div class="account-perms">${a.perms.map(p=>`<span class="perm-tag">${PL[p]||p}</span>`).join('')}</div></div>`).join('');
+  // SuperAdmin account is hidden from this list — Owner and staff should never see it exists
+  const visibleAdmins=ADMINS.filter(a=>a.role!=='SuperAdmin');
+  if(g) g.innerHTML=visibleAdmins.map(a=>`<div class="account-card"><div class="account-role role-${a.role.toLowerCase().replace(' ','')}">${a.role}</div><div class="account-name">${a.emoji} ${a.name}</div><div class="account-username">@${a.username}</div><div class="account-perms">${a.perms.map(p=>`<span class="perm-tag">${PL[p]||p}</span>`).join('')}</div></div>`).join('');
   // Show "Add Staff" button only for users who can manage accounts (Owner/SuperAdmin)
   const btn=document.getElementById('btn-add-staff');
   if(btn) btn.style.display=hasPerm('accounts')?'inline-flex':'none';
@@ -1693,8 +1917,8 @@ async function confirmDeleteStaff(){
   staffToDelete=null;
   renderStaffGrid();
 }
-function loadSettingsUI(){const gOn=settings.gstEnabled||false;const tog=document.getElementById('gst-toggle'),lbl=document.getElementById('gst-status-label'),fields=document.getElementById('gst-fields');if(tog)tog.classList.toggle('on',gOn);if(lbl)lbl.textContent=gOn?'ON':'OFF';if(fields)fields.style.display=gOn?'block':'none';const gn=document.getElementById('gst-number'),gp=document.getElementById('gst-percent');if(gn)gn.value=settings.gstNumber||'';if(gp)gp.value=settings.gstPercent||5;const fc=document.getElementById('footer-copyright-input');if(fc)fc.value=settings.footerCopyright||'© 2024 The Lion Restaurant. All Rights Reserved.';const tc=document.getElementById('terms-content');if(tc)tc.value=settings.terms||'1. All orders once placed are final.\n2. Management reserves right to refuse service.';const tci=document.getElementById('table-count-input');if(tci)tci.value=TOTAL_TABLES;}
-async function saveSettingsFb(){settings.adsData=ADS;settings.menuVis=menuVis;settings.stockCount=stockCount;settings.totalTables=TOTAL_TABLES;await fbSave('settings','global',settings);}
+function loadSettingsUI(){const gOn=settings.gstEnabled||false;const tog=document.getElementById('gst-toggle'),lbl=document.getElementById('gst-status-label'),fields=document.getElementById('gst-fields');if(tog)tog.classList.toggle('on',gOn);if(lbl)lbl.textContent=gOn?'ON':'OFF';if(fields)fields.style.display=gOn?'block':'none';const gn=document.getElementById('gst-number'),gp=document.getElementById('gst-percent');if(gn)gn.value=settings.gstNumber||'';if(gp)gp.value=settings.gstPercent||5;const fc=document.getElementById('footer-copyright-input');if(fc)fc.value=settings.footerCopyright||'© 2024 The Lion Restaurant. All Rights Reserved.';const tc=document.getElementById('terms-content');if(tc)tc.value=settings.terms||'1. All orders once placed are final.\n2. Management reserves right to refuse service.';const tci=document.getElementById('table-count-input');if(tci)tci.value=TOTAL_TABLES;loadLandingContentForm();}
+async function saveSettingsFb(){settings.adsData=ADS;settings.menuVis=menuVis;settings.stockCount=stockCount;settings.totalTables=TOTAL_TABLES;settings.menuData=MENU;await fbSave('settings','global',settings);}
 async function toggleGST(){settings.gstEnabled=!settings.gstEnabled;await saveSettingsFb();loadSettingsUI();addAudit(`GST ${settings.gstEnabled?'enabled':'disabled'}`);showToast(`GST ${settings.gstEnabled?'enabled':'disabled'}`);}
 async function saveGST(){settings.gstNumber=document.getElementById('gst-number').value.trim();settings.gstPercent=parseFloat(document.getElementById('gst-percent').value)||5;await saveSettingsFb();addAudit(`GST: ${settings.gstPercent}%, No: ${settings.gstNumber}`);showToast('GST saved to Firebase!');}
 async function saveFooter(){settings.footerCopyright=document.getElementById('footer-copyright-input').value;await saveSettingsFb();document.getElementById('footer-copyright').textContent=settings.footerCopyright;addAudit('Footer copyright updated');showToast('Footer updated!');}
